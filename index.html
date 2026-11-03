@@ -50,6 +50,11 @@ button{font:inherit}
 .hero h1{font-size:clamp(34px,6vw,62px);font-weight:800;letter-spacing:-.025em;line-height:1.16;margin:14px 0 18px;text-shadow:0 2px 20px rgba(0,0,0,.65)}
 .hero p{font-size:clamp(16px,2vw,19px);margin:0 auto;max-width:31em;color:#e8e8ed;text-shadow:0 1px 4px rgba(0,0,0,.55)}
 .hero .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.pill.go{padding:15px 26px;font-size:16px;gap:10px}
+.pill.go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.pill.go:hover svg{transform:translateX(4px)}
+.pill.red.go{box-shadow:0 8px 24px rgba(224,49,47,.4)}
+.hero .hint{font-size:13.5px!important;color:#d2d2d7!important;margin-top:16px!important}
 /* sections */
 .sec{padding:100px 0}.sec.gray{background:var(--gray)}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
@@ -184,9 +189,10 @@ body.diag #diag{display:block}body.diag main,body.diag footer{display:none}
     <h1 data-i="hero_title"></h1>
     <p data-i="hero_desc"></p>
     <div class="ctas">
-      <button class="pill red" data-go="ls"><span data-i="cta_ls"></span><small>D-4</small></button>
-      <button class="pill glass" data-go="deg"><span data-i="cta_deg"></span><small>D-2</small></button>
+      <button class="pill red go" data-go="ls"><span data-i="start_ls"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="pill glass go" data-go="deg"><span data-i="start_deg"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
+    <p class="hint" data-i="hero_hint"></p>
   </div></section>
 
   <section class="sec"><div class="wrap split">
@@ -345,6 +351,8 @@ ko: {
   hero_title: '계명문화대학교에서<br>한국 유학을 시작하세요.',
   hero_desc: '한국어학당과 학위과정, 두 가지 입학 경로를 안내합니다. 몇 가지 질문에 답하면 지원 자격과 필요한 서류를 바로 확인할 수 있습니다.',
   cta_ls: '어학과정 진단', cta_deg: '학위과정 진단',
+  start_ls: '어학과정 진단 시작', start_deg: '학위과정 진단 시작',
+  hero_hint: '버튼을 누르면 바로 시작됩니다 · 질문 4~5개 · 약 1분 · 개인정보 입력 없음',
   about_title: '한국어부터 전공까지,<br>한 캠퍼스에서.',
   about_desc: '계명문화대학교 국제처의 2026학년도 한국어학당, 2027학년도 3월 학기 외국인 유학생 모집요강을 바탕으로 정리했습니다.',
   about: [['check', '질문 몇 개로 <b>지원 가능 여부</b> 확인'], ['pct', '어학 성적별 <b>장학금 적용 등록금</b> 계산'], ['file', '국적과 상황에 맞춘 <b>제출 서류 목록</b>'], ['cal', '지금 접수 중인 <b>전형 일정</b> 안내']],
@@ -447,6 +455,8 @@ en: {
   hero_title: 'Start your study<br>in Korea at KMCU.',
   hero_desc: 'Two ways in: the Korean Language Institute and degree programs. Answer a few questions to see whether you are eligible and which documents you need.',
   cta_ls: 'Language Course', cta_deg: 'Degree Program',
+  start_ls: 'Start language course check', start_deg: 'Start degree program check',
+  hero_hint: 'Starts right away · 4–5 questions · about 1 minute · no personal details needed',
   about_title: 'From Korean to a degree,<br>on one campus.',
   about_desc: 'Based on the KMCU Office of International Affairs admission guides for the 2026 Korean Language Institute and the March 2027 intake.',
   about: [['check', 'Check <b>your eligibility</b> in a few questions'], ['pct', 'See <b>tuition after scholarship</b> by language level'], ['file', 'Get a <b>document checklist</b> for your situation'], ['cal', 'See <b>which round is open</b> now']],
@@ -549,6 +559,8 @@ es: {
   hero_title: 'Empieza a estudiar<br>en Corea en KMCU.',
   hero_desc: 'Dos vías de ingreso: el Instituto de Lengua Coreana y las carreras. Responde unas preguntas y conoce tus requisitos y los documentos que necesitas.',
   cta_ls: 'Curso de coreano', cta_deg: 'Carrera',
+  start_ls: 'Evaluar curso de coreano', start_deg: 'Evaluar carrera',
+  hero_hint: 'Empieza al instante · 4–5 preguntas · 1 minuto aprox. · sin datos personales',
   about_title: 'Del coreano a tu carrera,<br>en un mismo campus.',
   about_desc: 'Basado en las convocatorias de la Oficina de Asuntos Internacionales de KMCU: Instituto de Coreano 2026 e ingreso de marzo de 2027.',
   about: [['check', 'Comprueba <b>si puedes postular</b> con unas preguntas'], ['pct', 'Calcula la <b>matrícula con beca</b> según tu nivel'], ['file', 'Obtén la <b>lista de documentos</b> para tu caso'], ['cal', 'Consulta <b>qué ronda está abierta</b>']],
