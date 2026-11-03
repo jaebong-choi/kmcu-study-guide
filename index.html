@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KMCU Study Guide</title>
+<meta name="description" content="계명문화대학교 외국인 유학생 입학 가이드 — 한국어학당(어학과정) · 학위과정 입학 진단">
+<link rel="icon" href="assets/img/emblem.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1d1d1f;--sub:#6e6e73;--mute:#86868b;--line:#e5e5e7;--gray:#f5f5f7;--red:#e0312f;--red-d:#c4221f;--blue:#00449e}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#fff;color:var(--ink);font:16px/1.6 "Pretendard Variable",Pretendard,"Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+p,li,dd,td{text-wrap:pretty}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+a{color:inherit}
+button{font:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--blue);text-transform:uppercase}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:980px;padding:13px 24px;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:background .2s}
+.pill small{font-size:12px;font-weight:500;opacity:.75}
+.pill.red{background:var(--red);color:#fff}.pill.red:hover{background:var(--red-d)}
+.pill.glass{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.4);backdrop-filter:blur(10px)}.pill.glass:hover{background:rgba(255,255,255,.22)}
+.pill.dark{background:var(--ink);color:#fff}.pill.dark:hover{background:#3a3a3c}
+.pill.line{background:#fff;color:var(--ink);border-color:#d2d2d7}.pill.line:hover{background:var(--gray)}
+.pill.sm{padding:9px 16px;font-size:14px}
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav .wrap{max-width:1120px;display:flex;align-items:center;gap:20px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.brand img{height:26px;display:block}
+.brand span{font-size:13px;font-weight:600;color:var(--sub);border-left:1px solid #d2d2d7;padding-left:10px;white-space:nowrap}
+.links{display:flex;gap:26px;margin:0 auto;font-size:13px}
+.links a{text-decoration:none;color:var(--sub)}.links a:hover{color:var(--ink)}
+.right{display:flex;gap:8px;align-items:center;margin-left:auto}
+.seg{display:inline-flex;border:1px solid rgba(0,0,0,.18);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:none;color:var(--sub);font-size:11.5px;font-weight:700;padding:5px 10px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.nav .pill{padding:6px 13px;font-size:12px}
+@media(max-width:860px){.links{display:none}}
+@media(max-width:520px){.brand span,.nav .pill{display:none}}
+/* hero */
+.hero{min-height:calc(100vh - 56px);min-height:calc(100svh - 56px);display:grid;place-items:center;text-align:center;color:#f5f5f7;padding:80px 16px;
+  background:radial-gradient(ellipse 85% 60% at 50% 52%,rgba(0,0,0,.62),rgba(0,0,0,.3) 55%,rgba(0,0,0,0) 78%),linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.42) 40%,rgba(0,0,0,.88)),url(assets/img/hero.jpg) center 20%/cover #222}
+#contact .split{align-items:start}#contact .photo{position:sticky;top:96px}
+.hero .eyebrow{color:#ffb547}
+.hero h1{font-size:clamp(34px,6vw,62px);font-weight:800;letter-spacing:-.025em;line-height:1.16;margin:14px 0 18px;text-shadow:0 2px 20px rgba(0,0,0,.65)}
+.hero p{font-size:clamp(16px,2vw,19px);margin:0 auto;max-width:31em;color:#e8e8ed;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+.hero .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+/* sections */
+.sec{padding:100px 0}.sec.gray{background:var(--gray)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.photo{border-radius:24px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.12);aspect-ratio:4/3;background:#ddd}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+h2{font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.25;margin:10px 0 18px}
+.lead{color:var(--sub);font-size:16px;margin:0 0 26px}
+.ilist{list-style:none;margin:0 0 30px;padding:0;display:grid;gap:14px;font-size:15px;color:#3a3a3c}
+.ilist li{display:flex;gap:12px;align-items:center}
+.ico{flex:0 0 34px;height:34px;border-radius:10px;background:#eef3fb;color:var(--blue);display:grid;place-items:center}
+.ico svg{width:17px;height:17px}
+.ilist b{color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:820px){.split{grid-template-columns:1fr;gap:32px}.sec{padding:72px 0}#contact .photo{order:-1}}
+/* track cards */
+.center{text-align:center;max-width:640px;margin:0 auto 44px}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.08)}
+.card>img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#ddd}
+.card .in{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+.card h3{font-size:22px;font-weight:800;margin:6px 0 16px}
+.pflow{display:flex;gap:3px;list-style:none;margin:0 0 18px;padding:0}
+.pflow li{flex:1 1 0;min-width:0;padding:9px 10px 9px 18px;background:var(--gray);font-size:12px;font-weight:600;line-height:1.35;clip-path:polygon(0 0,calc(100% - 11px) 0,100% 50%,calc(100% - 11px) 100%,0 100%,11px 50%)}
+.pflow li span{display:block;font-size:10.5px;font-weight:500;color:var(--mute);margin-top:2px}
+.pflow li:first-child{padding-left:10px;background:var(--blue);color:#fff;clip-path:polygon(0 0,calc(100% - 11px) 0,100% 50%,calc(100% - 11px) 100%,0 100%)}
+.pflow li:last-child{background:var(--ink);color:#fff;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,11px 50%)}
+.pflow li:first-child span,.pflow li:last-child span{color:#fff;opacity:.75}
+.pspec{display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;margin:0 0 24px;font-size:14px}
+.pspec dt{color:var(--mute);font-weight:500;white-space:nowrap}
+.pspec dd{margin:0;font-weight:600}
+.card .pill{margin-top:auto;align-self:flex-start}
+.note{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;font-size:14px;color:#3a3a3c}
+.note b{color:var(--ink)}
+@media(max-width:820px){.cards2{grid-template-columns:1fr}}
+/* guide */
+details{border:1px solid var(--line);border-radius:20px;margin-top:12px;background:#fff}
+summary{cursor:pointer;list-style:none;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:17px;font-weight:700}
+summary::-webkit-details-marker{display:none}
+summary .tog{flex-shrink:0;border:1px solid #d2d2d7;border-radius:980px;padding:5px 13px;font-size:12px;font-weight:600;color:var(--blue)}
+summary:hover .tog{border-color:var(--blue)}
+details .open{display:none}details[open] .open{display:inline}details[open] .closed{display:none}
+details .in{padding:0 26px 26px}
+details h4{font-size:15px;margin:26px 0 10px}
+details p,details li{font-size:14.5px;color:#3a3a3c}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:13px;white-space:nowrap}
+.num{text-align:right;white-space:nowrap}
+.small{font-size:13px!important;color:var(--mute)!important}
+.depts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.depts div{background:var(--gray);border-radius:14px;padding:14px 16px}
+.depts h5{margin:0 0 6px;font-size:13px;color:var(--blue)}
+.depts ul{margin:0;padding-left:16px}
+.depts li{font-size:13.5px}
+/* contact */
+.clist{display:grid;gap:10px}
+.banner{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border:1px solid #d2d2d7;border-radius:14px;padding:13px 18px;text-decoration:none;font-size:14px;font-weight:600}
+a.banner:hover{background:#fafafa;border-color:var(--ink)}
+.banner small{display:block;color:var(--mute);font-size:12.5px;font-weight:500}
+.banner.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.banner.primary small{color:#a1a1a6}
+a.banner.primary:hover{background:#3a3a3c}
+footer{background:var(--gray);text-align:center;padding:48px 16px 56px;font-size:12px;color:var(--mute);border-top:1px solid var(--line)}
+footer img{height:36px;margin-bottom:10px}
+footer p{max-width:620px;margin:8px auto 0}
+/* diagnosis view */
+#diag{display:none;background:var(--gray);min-height:calc(100vh - 56px);min-height:calc(100svh - 56px)}
+body.diag #diag{display:block}body.diag main,body.diag footer{display:none}
+.chat{max-width:680px;margin:0 auto;padding:28px 16px 48px;display:flex;flex-direction:column;gap:14px}
+.chat .top{display:flex;justify-content:flex-start;margin-bottom:6px}
+.msg{display:flex;gap:12px;align-items:flex-start;animation:up .5s cubic-bezier(.16,1,.3,1)}
+.av{flex:0 0 36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center}
+.av img{height:21px}
+.bub{background:#fff;border:1px solid var(--line);border-radius:20px 20px 20px 6px;padding:12px 16px;font-size:14.5px;max-width:520px}
+.msg.me{justify-content:flex-end}
+.msg.me .bub{background:var(--ink);color:#fff;border-color:var(--ink);border-radius:20px 20px 6px 20px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 0 48px}
+.opts button{background:#fff;border:1px solid #d2d2d7;border-radius:980px;padding:13px 16px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .2s}
+.opts button:hover{border-color:var(--ink)}
+@media(max-width:560px){.opts{grid-template-columns:1fr;margin-left:0}}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+@media(prefers-reduced-motion:reduce){.msg,.result{animation:none}}
+.result{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;margin-top:8px;animation:up .5s cubic-bezier(.16,1,.3,1)}
+.status{font-size:24px;font-weight:800;letter-spacing:-.01em}
+.status.ok{color:#1a7f37}.status.cond{color:#b45309}.status.no{color:var(--red)}
+.rsec{border-top:1px solid var(--line);margin-top:20px;padding-top:18px}
+.rsec h4{font-size:13px;color:var(--mute);font-weight:600;margin:0 0 8px}
+.rsec p,.rsec li{font-size:14.5px;margin:0 0 6px}
+.rsec ul{margin:0;padding-left:18px}
+.checks{list-style:none;padding:0!important}
+.checks input{accent-color:var(--ink);margin-right:8px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#top" data-home><img src="assets/img/logo.png" alt="Keimyung College University"><span data-i="brand_sub"></span></a>
+  <nav class="links">
+    <a href="#" data-go="ls" data-i="nav_ls"></a>
+    <a href="#" data-go="deg" data-i="nav_deg"></a>
+    <a href="#guide" data-home data-i="nav_guide"></a>
+  </nav>
+  <div class="right">
+    <div class="seg" role="group" aria-label="Language"><button data-lang="ko">KO</button><button data-lang="en">EN</button><button data-lang="es">ES</button></div>
+    <a class="pill line" href="#contact" data-home data-i="nav_contact"></a>
+  </div>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div>
+    <div class="eyebrow">Keimyung College University · International</div>
+    <h1 data-i="hero_title"></h1>
+    <p data-i="hero_desc"></p>
+    <div class="ctas">
+      <button class="pill red" data-go="ls"><span data-i="cta_ls"></span><small>D-4</small></button>
+      <button class="pill glass" data-go="deg"><span data-i="cta_deg"></span><small>D-2</small></button>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap split">
+    <div class="photo"><img src="assets/img/about.jpg" alt="" loading="lazy"></div>
+    <div>
+      <div class="eyebrow">KMCU Study Guide</div>
+      <h2 data-i="about_title"></h2>
+      <p class="lead" data-i="about_desc"></p>
+      <ul class="ilist" id="about"></ul>
+      <div class="row"><button class="pill dark" data-go="ls" data-i="cta_ls"></button><button class="pill line" data-go="deg" data-i="cta_deg"></button></div>
+    </div>
+  </div></section>
+
+  <section class="sec gray"><div class="wrap">
+    <div class="center"><div class="eyebrow">Admission paths</div><h2 data-i="cmp_title"></h2><p class="lead" data-i="cmp_desc"></p></div>
+    <div class="cards2" id="tracks"></div>
+    <div class="note" data-i="bridge"></div>
+  </div></section>
+
+  <section class="sec" id="guide"><div class="wrap">
+    <div class="eyebrow">Guide</div>
+    <h2 data-i="guide_title"></h2>
+    <p class="lead" data-i="guide_desc"></p>
+    <div id="guideBody"></div>
+  </div></section>
+
+  <section class="sec gray" id="contact"><div class="wrap split">
+    <div>
+      <h2 data-i="links_title"></h2>
+      <p class="lead" data-i="links_desc"></p>
+      <div class="clist" id="links"></div>
+      <h3 style="font-size:20px;font-weight:800;margin:40px 0 14px" data-i="contact_title"></h3>
+      <div class="clist" id="contacts"></div>
+    </div>
+    <div class="photo"><img src="assets/img/official.jpg" alt="" loading="lazy"></div>
+  </div></section>
+</main>
+
+<section id="diag"><div class="chat" id="chat" aria-live="polite"></div></section>
+
+<footer>
+  <img src="assets/img/emblem.png" alt="">
+  <div style="color:var(--ink);font-size:14px;font-weight:700">KMCU Study Guide</div>
+  <p data-i="footer"></p>
+</footer>
+
+<script>
+// ===== 매년 고칠 곳: 날짜 · 금액 (모집요강 기준) =====
+const D = {
+  ls: { // 2026학년도 한국어학당
+    fee: 4400000, app: 100000, topik: 100000, bal: 8000000,
+    // [학기, 수업 시작, 수업 끝, 접수 시작, 접수 끝, 면접 시작, 면접 끝]
+    terms: [
+      ['spring', '2026-03-03', '2026-05-13', '2025-11-17', '2025-12-31', '2026-01-05', '2026-01-07'],
+      ['summer', '2026-06-08', '2026-08-14', '2026-03-09', '2026-04-03', '2026-04-06', '2026-04-08'],
+      ['fall',   '2026-09-01', '2026-11-13', '2026-06-08', '2026-07-03', '2026-07-06', '2026-07-08'],
+      ['winter', '2026-12-01', '2027-02-12', '2026-09-07', '2026-10-02', '2026-10-06', '2026-10-07'],
+    ],
+  },
+  deg: { // 2027학년도 3월 학기 학부
+    union: 79000, bal: 16000000, balKmcu: 8000000,
+    // [차수, 접수 시작, 접수 끝, 면접 시작, 면접 끝, 합격 발표]
+    rounds: [
+      [1, '2026-09-07', '2026-09-30', '2026-10-10', '2026-10-11', '2026-10-23'],
+      [2, '2026-11-11', '2026-11-25', '2026-11-28', '2026-11-28', '2026-12-04'],
+      [3, '2027-01-04', '2027-01-20', '2027-01-23', '2027-01-23', '2027-01-27'],
+    ],
+    // [계열, 입학학기 등록금, 잔여학기 등록금]
+    groups: [['hum1', 3017000, 2779000], ['hum2', 3290000, 3052000], ['eng', 3591000, 3353000]],
+    rate: { t6: .8, t5: .7, t2: .5, sejong: .5, eng: .5, kmcu: .5, none: 0 },
+  },
+  dorm: [['m2', 620000], ['fA4', 490000], ['fB4', 540000], ['fB2', 820000]],
+  url: {
+    global: 'https://www.kmcu.ac.kr/global/',
+    applyLs: 'https://www.kmcu.ac.kr/global/index.php?pCode=MN0000096',
+    applyDeg: 'https://www.kmcu.ac.kr/global/index.php?pCode=MN0000097',
+    lsInfo: 'https://www.kmcu.ac.kr/global/index.php?pCode=MN0000059',
+    degInfo: 'https://www.kmcu.ac.kr/global/index.php?pCode=MN0000036',
+  },
+};
+const FOUR = ['uz', 'vn', 'cn', 'mn']; // 사증발급인정서 대상 국가
+
+// [계열, [학과...]] — 각 항목 [ko, en, es]
+const DEPTS = [
+  [['간호·보건', 'Nursing & Health', 'Enfermería y Salud'], [
+    ['간호학과 (4년제)', 'Nursing (4-year)', 'Enfermería (4 años)'],
+    ['보건행정과', 'Health Administration', 'Administración Sanitaria'],
+    ['언어치료과', 'Speech-Language Therapy', 'Terapia del Lenguaje'],
+    ['응급구조과', 'Emergency Medical Technology', 'Técnico en Emergencias Médicas'],
+    ['의료재활과', 'Medical Rehabilitation', 'Rehabilitación Médica'],
+    ['작업치료과', 'Occupational Therapy', 'Terapia Ocupacional'],
+    ['치위생과', 'Dental Hygiene', 'Higiene Dental']]],
+  [['AI융합·디자인·콘텐츠', 'AI, Design & Content', 'IA, Diseño y Contenidos'], [
+    ['AI디자인학부 (산업·시각·타투디자인)', 'School of AI Design (Industrial · Visual · Tattoo)', 'Escuela de Diseño con IA (Industrial · Visual · Tatuaje)'],
+    ['AI융합자율전공과', 'AI Convergence Open Major', 'Carrera Abierta de Convergencia IA'],
+    ['웹툰·애니메이션학부', 'School of Webtoon & Animation', 'Escuela de Webtoon y Animación'],
+    ['패션디자인·쇼핑몰과', 'Fashion Design & Online Retail', 'Diseño de Moda y Comercio Online']]],
+  [['반려동물', 'Companion Animals', 'Animales de Compañía'], [
+    ['반려동물보건과', 'Companion Animal Health', 'Salud de Animales de Compañía'],
+    ['펫토탈케어과', 'Pet Total Care', 'Cuidado Integral de Mascotas']]],
+  [['뷰티', 'Beauty', 'Belleza'], [
+    ['뷰티아트학부 (메이크업·네일)', 'School of Beauty Art (Makeup · Nail)', 'Escuela de Arte de Belleza (Maquillaje · Uñas)'],
+    ['뷰티스킨테라피과', 'Beauty Skin Therapy', 'Terapia Estética de la Piel'],
+    ['헤어디자인과', 'Hair Design', 'Diseño de Cabello']]],
+  [['스마트공학', 'Smart Engineering', 'Ingeniería Inteligente'], [
+    ['건축인테리어학부', 'School of Architecture & Interior', 'Escuela de Arquitectura e Interiorismo'],
+    ['기계과', 'Mechanical Engineering', 'Ingeniería Mecánica'],
+    ['소방환경안전과', 'Fire & Environmental Safety', 'Seguridad contra Incendios y Ambiental'],
+    ['스마트그린융합학부 (전기·플라워가드닝)', 'School of Smart Green Convergence (Electrical · Flower & Gardening)', 'Escuela de Convergencia Verde (Electricidad · Flores y Jardinería)']]],
+  [['식품·외식·조리', 'Food & Culinary', 'Alimentación y Cocina'], [
+    ['식품영양과', 'Food & Nutrition', 'Alimentación y Nutrición'],
+    ['제과제빵과', 'Bakery & Pastry', 'Panadería y Pastelería'],
+    ['호텔외식조리학부', 'School of Hotel Culinary Arts', 'Escuela de Cocina Hotelera']]],
+  [['음악·스포츠', 'Music & Sports', 'Música y Deportes'], [
+    ['공연음악과 (실기고사)', 'Performing Music (audition)', 'Música Escénica (prueba práctica)'],
+    ['생활체육학부', 'School of Lifestyle Sports', 'Escuela de Deporte y Vida Activa']]],
+  [['휴먼·복지서비스', 'Human & Welfare Services', 'Servicios Humanos y Bienestar'], [
+    ['경찰행정과', 'Police Administration', 'Administración Policial'],
+    ['사회복지상담과', 'Social Welfare & Counseling', 'Trabajo Social y Orientación'],
+    ['유아교육과 (3년제)', 'Early Childhood Education (3-year)', 'Educación Infantil (3 años)'],
+    ['해외서비스호텔항공학부 (호텔관광·항공보안·해외서비스경영)', 'School of Global Service, Hotel & Aviation', 'Escuela de Servicios Globales, Hotelería y Aviación'],
+    ['AI경영학부 (AI회계정보)', 'School of AI Business (AI Accounting)', 'Escuela de Negocios con IA (Contabilidad con IA)']]],
+];
+
+const ICON = {
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  pct: '<path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+  file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+  cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+};
+const svg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg>`;
+
+// ===== 번역 =====
+const T = {
+ko: {
+  nav_ls: '어학과정 진단', nav_deg: '학위과정 진단', nav_guide: '전체 안내', nav_contact: '상담 문의', brand_sub: '유학 가이드', back: '← 처음으로',
+  hero_title: '계명문화대학교에서<br>한국 유학을 시작하세요.',
+  hero_desc: '한국어학당과 학위과정, 두 가지 입학 경로를 안내합니다. 몇 가지 질문에 답하면 지원 자격과 필요한 서류를 바로 확인할 수 있습니다.',
+  cta_ls: '어학과정 진단', cta_deg: '학위과정 진단',
+  about_title: '한국어부터 전공까지,<br>한 캠퍼스에서.',
+  about_desc: '계명문화대학교 국제처의 2026학년도 한국어학당, 2027학년도 3월 학기 외국인 유학생 모집요강을 바탕으로 정리했습니다.',
+  about: [['check', '질문 몇 개로 <b>지원 가능 여부</b> 확인'], ['pct', '어학 성적별 <b>장학금 적용 등록금</b> 계산'], ['file', '국적과 상황에 맞춘 <b>제출 서류 목록</b>'], ['cal', '지금 접수 중인 <b>전형 일정</b> 안내']],
+  cmp_title: '두 가지 입학 경로', cmp_desc: '목적에 맞는 과정을 고르세요. 한국어학당을 마친 뒤 학위과정으로 이어갈 수도 있습니다.',
+  ls_name: '어학과정', ls_full: '한국어학당', deg_name: '학위과정', deg_full: '전문학사 · 학사',
+  flow_ls: [['입국', 'D-4 비자'], ['한국어학당', '10주 × 연 4학기'], ['수료', '본과 진학 가능']],
+  flow_deg: [['원서접수', '1~3차'], ['심층면접', '학과별'], ['입학', '2027년 3월']],
+  k_visa: '비자', k_req: '지원 자격', k_class: '수업', k_cost: '학비', k_bal: '잔고증명',
+  v_req_ls: '고등학교 졸업 이상', v_req_deg: '고졸 이상 + 어학 성적 (TOPIK 2급 등)',
+  v_class_ls: '학기당 10주 · 200시간', v_class_deg: '3년제 · 4년제 학과 30여 개',
+  v_cost_ls: '1년(4학기) {fee}', v_cost_deg: '학기당 {min}~{max}, 어학 성적별 50~80% 장학',
+  v_bal_ls: '{lsbal} 이상', v_bal_deg: '{bal} 이상 (본교 학당 출신 {kmcu})',
+  bridge: '<b>한국어학당 수료 후 학위과정에 지원하면</b> 잔고증명 기준이 {bal}에서 {kmcu}으로 낮아집니다.',
+  hello_ls: '계명문화대학교 <b>한국어학당(어학과정, D-4)</b> 지원 자격을 확인합니다.',
+  hello_deg: '<b>2027년 3월 학기 학위과정(D-2)</b> 지원 자격을 확인합니다.',
+  q: {
+    edu: ['최종 학력을 알려주세요.', { grad: '고등학교 졸업 이상', soon: '고3 재학 (입학 전 졸업 예정)', no: '해당 없음' }],
+    kor: ['한국 국적(이중국적 포함)이 있나요?', { no: '없어요 (외국 국적만)', yes: '있어요' }],
+    parent: ['부모님도 모두 외국 국적인가요?', { yes: '네, 모두 외국 국적', no: '아니요, 한국 국적인 분이 있어요' }],
+    country: ['국적은 어디인가요?', { uz: '우즈베키스탄', vn: '베트남', cn: '중국', mn: '몽골', other: '그 밖의 국가' }],
+    gap: ['최종학력 졸업 후 2년 이상 지났나요?', { no: '아니요', yes: '네, 2년 이상' }],
+    money: ['잔고증명 {bal}을 준비할 수 있나요?', { yes: '네, 가능해요', unsure: '아직 잘 모르겠어요' }],
+    where: ['지금 어디에 계신가요?', { abroad: '해외 (본국)', kmcu: '한국 · 계명문화대 한국어학당 재학', ef: '한국 · E·F 계열 비자', other: '한국 · 그 밖의 비자' }],
+    lang: ['어학 성적이 있나요?', { t6: 'TOPIK 6급 · 사회통합 5단계(심화)', t5: 'TOPIK 5급 · 사회통합 5단계(기본)', t2: 'TOPIK 2~4급 · 사회통합 2~4단계', sejong: '세종학당 초급2B 이상', eng: '영어 (TOEFL iBT 59 · IELTS 5.5 · CEFR B2 등)', kmcu: 'KMCU 한국어능력입학시험 합격', none: '아직 없어요' }],
+  },
+  r_ok: '지원 가능합니다', r_cond: '조건을 갖추면 지원할 수 있습니다', r_no: '현재 조건으로는 지원이 어렵습니다',
+  r_notes: '확인할 점', r_sched: '다음 일정', r_cost: '예상 비용', r_bal: '잔고증명', r_docs: '준비할 서류', r_tuition: '첫 학기 등록금 (장학 적용)', r_int: '면접', r_bridge: '그다음 단계',
+  no_edu: '고등학교 졸업 이상 학력이 필요합니다.',
+  no_kor: '한국 국적(이중국적 포함)이 있으면 외국인 전형으로 지원할 수 없습니다.',
+  no_parent: '학위과정 외국인 전형은 본인과 부모 모두 외국 국적이어야 합니다.',
+  soon: '입학 전까지 졸업해야 합니다. 졸업(예정)증명서를 준비하세요.',
+  money_unsure: '비자 심사에 {bal} 이상 잔고증명이 필요합니다. 미리 준비해 두세요.',
+  gap_note: '졸업 후 2년 이상 지나 소명서를 추가로 제출해야 합니다.',
+  ccvi: '학교가 먼저 사증발급인정서를 신청하는 국가입니다. 신청 후 6개월 통장 내역을 추가로 요청할 수 있습니다.',
+  lang_none: '어학 성적이 필요합니다. KMCU 한국어능력입학시험에 합격하거나, 한국어학당에서 먼저 공부한 뒤 지원할 수 있습니다.',
+  lang_temp: '첫 학기는 50% 장학이 적용되고, 2학기부터는 TOPIK 2급 또는 사회통합프로그램 2단계 이상을 제출해야 장학이 이어집니다.',
+  ef: 'E·F 계열 비자 소지자는 제출 서류가 간소화됩니다. 유학생지원팀에 먼저 문의하세요.',
+  kmcu_student: '한국어학당 서류(재학·성적·출석·수료)가 필요하며, 직전 학기 출석률이 70% 이상이어야 합니다.',
+  ls_open: '<b>{term}</b> 서류 접수 중: {a} ~ {b}', ls_next: '<b>{term}</b> 서류 접수: {a} ~ {b}', ls_class: '수업 기간: {a} ~ {b}',
+  ls_tba: '2027학년도 일정은 아직 공지 전입니다. 지난해 봄학기는 11월 17일~12월 31일에 서류를 받았습니다. 일정은 유학생지원팀에 문의하세요.',
+  deg_open: '<b>{n}차</b> 원서접수 중: {a} ~ {b}', deg_next: '<b>{n}차</b> 원서접수: {a} ~ {b}', deg_after: '면접·실기: {i} · 합격 발표: {r}',
+  deg_closed: '2027년 3월 학기 접수가 모두 끝났습니다.',
+  c_app: '입학전형료 (1회)', c_year: '수업료 1년 (4학기)', c_topik: 'TOPIK 응시료', c_dorm: '기숙사비 (식비 별도)',
+  bal_valid: '이상 · 신청일 기준 1개월 이내 발급',
+  balc: { uz: 'KDB은행 잔고증명서, 또는 3개월 이상 유지된 통장 내역', vn: '베트남 특례법에 따른 예치증명서 (베트남 내 우리은행 등)', cn: '예금 동결 기간이 30일 이상 남은 잔고증명서', mn: '잔고증명서 (원본)', other: '잔고증명서 (원본)' },
+  bal_6m: '제출 1~2주 뒤 6개월 이상 통장 입출금 내역을 추가로 요청할 수 있습니다.',
+  bal_deg: '원본 · 발급 1개월 이내 · 금액 근거 자료(해외송금 내역 등) 함께 제출',
+  d: { sheet: '인적사항 입력표 (Excel)', passport: '여권 사본 · 증명사진 (JPG)', bal: '잔고증명 (원본)', edu: '최종학력증명 (원본 + 번역 공증)', income: '보호자 소득(재정) 증명', family: '가족관계증명 (해당 시 사망·이혼 증명)', pid: '보호자 신분증 사본', birth: '출생증명', app: '입학지원서 · 자기소개서', translator: '번역자 확인서 (번역자 신분증 포함)', explain: '소명서', photos: '가족·보호자 직장·집 사진', langscore: '어학 성적 1개 (TOPIK 등)', lsdocs: '한국어학당 재학·성적·출석·수료 서류', visafee: '비자 변경·심사 수수료 135,000원', lease: '부동산 계약서 (대구)' },
+  educ: { uz: '아포스티유 + 외교부 공증', vn: '영사 확인', cn: '중국 학력·학위인증센터 인증보고서 (아포스티유 가능)', mn: '아포스티유 또는 영사 확인', other: '아포스티유 또는 영사 확인', deg: '아포스티유 또는 영사 확인 · 6개월 이내' },
+  docs_note: '한국어·영어가 아닌 서류는 공증 번역본을 붙이세요 (6개월 이내 공증분만 유효). 제출 서류는 반환되지 않습니다.',
+  g: { hum1: '인문사회 계열', hum2: '보건행정과', eng: '공학·자연·예체능 계열' },
+  th_group: '계열', th_base: '등록금', th_sch: '장학금', th_pay: '실 납부액',
+  union_note: '학생회비 79,000원 별도 · 등록금은 학교 사정에 따라 바뀔 수 있습니다.',
+  int_text: '심층면접 100점 (학업수행의지·적응능력·표현능력·전공지식 각 25%). 50점 미만이거나 불참하면 불합격입니다. 공연음악과는 대면 실기고사를 봅니다.',
+  bridge_r: '한국어학당을 수료하면 본과(학위과정)로 진학할 수 있습니다. 이때 잔고증명은 {kmcu}이면 됩니다.',
+  btn_apply: '온라인 신청', btn_contact: '상담 문의', btn_to_ls: '어학과정 진단하기', btn_to_deg: '학위과정 진단하기', btn_restart: '다시 하기',
+  guide_title: '전체 안내', guide_desc: '모집요강의 핵심만 정리했습니다. 지원 전에 공식 모집요강을 꼭 확인하세요.',
+  fold_open: '자세히 보기', fold_close: '접기',
+  gt_ls: '한국어학당 (어학과정 · D-4)', gt_deg: '학위과정 (2027년 3월 입학 · D-2)', gt_dept: '모집 학과', gt_dorm: '기숙사 (동산생활관)',
+  terms: { spring: '봄학기', summer: '여름학기', fall: '가을학기', winter: '겨울학기' },
+  th_term: '학기', th_classp: '수업 기간', th_apply: '서류 접수', th_int: '면접 (비대면)',
+  h_sched: '학기 일정', h_cost: '비용', h_steps: '지원 절차', h_docs: '제출 서류', h_perks: '입학 혜택', h_req: '지원 자격', h_rounds: '전형 일정', h_sch: '장학금 (신입생 첫 학기)', h_how: '접수 방법',
+  ls_hours: '학기당 10주 · 200시간 (월~금, 하루 4시간). 일정은 비자 심사 등에 따라 바뀔 수 있습니다.',
+  steps: ['서류 제출 (이메일 + 원본 우편·방문)', '서류 검토 후 면접 (Zoom 등 비대면)', '합격 발표 · 등록금 납부 (인보이스 발행)', '표준입학허가서 발급', '사증발급인정서 신청 (우즈벡·베트남·중국·몽골)', '사증발급인정서 결과 발표', '본국 대한민국 대사관에 비자 신청', '비자 발급', '입국 · 오리엔테이션 · 건강검진'],
+  ls_docs_extra: '번역자 확인서 · 소명서 · 가족 사진은 우즈베키스탄·베트남·중국·몽골 국적만 제출합니다.',
+  perks: ['입국 후 6개월 보험료 지원', '재학 중 TOPIK 3급 이상 취득 시 장려금 250,000원', '학기마다 문화 체험 · 산업체 탐방', '베트남어 · 중국어 · 일본어 · 영어 상담 가능', '수료 후 본과(학위과정) 진학 가능'],
+  req: ['고등학교 졸업 이상 (또는 동등 학력)', '본인과 부모 모두 외국 국적', 'D-2-1 비자 발급에 결격 사유가 없을 것', '어학 성적 1개: TOPIK 2급 · 사회통합 2단계 · 세종학당 2B · 영어(TOEFL iBT 59 등) · KMCU 한국어능력입학시험'],
+  th_round: '차수', th_apply2: '원서접수', th_int2: '면접·실기', th_result: '합격 발표',
+  reg_note: '합격자 등록: 예치금 2026.12.21~23 · 충원 12.24~31 · 최종 2027.2.10~12',
+  th_cond: '조건', th_rate: '감면율',
+  sch: { t2: 'TOPIK 2~4급 · 사회통합 2~4단계 · 세종학당 2B · 영어 성적', t5: 'TOPIK 5급 · 사회통합 5단계(기본)', t6: 'TOPIK 6급 · 사회통합 5단계(심화)' },
+  sch_after: '재학생도 TOPIK 2급(20%)부터 6급(80%)까지 장학이 이어집니다. 친구와 함께 입학하면 멘토·멘티 지원금 1인당 300,000원 (조건 있음).',
+  th_doc: '서류', th_abroad: '해외 지원', th_dom: '국내 지원',
+  how: '방문: 복지관 2층 국제처 유학생지원팀 (평일 09:00~19:00, 토 14:00까지) · 우편: 마감일 18:00 도착분까지 · 이메일: ofofarmer@kmcu.ac.kr',
+  th_room: '구분', th_type: '형태', th_price: '기숙사비',
+  dorm: { m2: ['남자 · 교외 원룸', '2인 1실'], fA4: ['여자 · 교내 A동', '4인 1실'], fB4: ['여자 · 교내 B동', '4인 1실'], fB2: ['여자 · 교내 B동', '2인 1실'] },
+  dorm_note: '식비 미포함 (직접 조리 또는 학생식당) · 기숙사 문의 053-589-7982',
+  links_title: '정보는 언제나,<br>공식 채널에서 확인하세요.',
+  links_desc: '이 페이지는 지원 방향을 잡기 위한 안내입니다. 일정과 서류는 바뀔 수 있으니 최종 지원 전 공식 모집요강을 확인하세요.',
+  l: { applyLs: ['어학과정 온라인 신청', 'APPLY ONLINE'], applyDeg: ['학부과정 온라인 신청', 'APPLY ONLINE'], lsInfo: ['한국어교육센터 입학안내', '모집요강 PDF'], degInfo: ['대학교 입학안내', '모집요강 · 지원서 양식'], global: ['국제처 홈페이지', '공지사항 · 자료실'] },
+  contact_title: '상담 문의', c1: '한국어 · 영어 상담', c2: '한국어 · 베트남어 상담', c_mail: '이메일', c_addr: '오시는 길',
+  addr: '대구 달서구 달서대로 675 복지관 2층 국제처 유학생지원팀 · 지하철 2호선 계명대역 7번 출구 도보 10분',
+  footer: '2026학년도 한국어학당 · 2027학년도 3월 학기 외국인 유학생 모집요강 기준. 일정과 금액은 학교 사정에 따라 바뀔 수 있으니 지원 전에 공식 모집요강을 확인하세요. © 계명문화대학교 국제처',
+},
+en: {
+  nav_ls: 'Language Course', nav_deg: 'Degree Program', nav_guide: 'Full Guide', nav_contact: 'Contact', brand_sub: 'Study Guide', back: '← Home',
+  hero_title: 'Start your study<br>in Korea at KMCU.',
+  hero_desc: 'Two ways in: the Korean Language Institute and degree programs. Answer a few questions to see whether you are eligible and which documents you need.',
+  cta_ls: 'Language Course', cta_deg: 'Degree Program',
+  about_title: 'From Korean to a degree,<br>on one campus.',
+  about_desc: 'Based on the KMCU Office of International Affairs admission guides for the 2026 Korean Language Institute and the March 2027 intake.',
+  about: [['check', 'Check <b>your eligibility</b> in a few questions'], ['pct', 'See <b>tuition after scholarship</b> by language level'], ['file', 'Get a <b>document checklist</b> for your situation'], ['cal', 'See <b>which round is open</b> now']],
+  cmp_title: 'Two ways to study at KMCU', cmp_desc: 'Choose the one that fits your goal. You can also move from the Korean course on to a degree.',
+  ls_name: 'Language Course', ls_full: 'Korean Language Institute', deg_name: 'Degree Program', deg_full: 'Associate · Bachelor',
+  flow_ls: [['Arrive', 'D-4 visa'], ['Korean course', '10 weeks × 4 terms'], ['Complete', 'Move on to a degree']],
+  flow_deg: [['Apply', 'Rounds 1–3'], ['Interview', 'By department'], ['Enroll', 'March 2027']],
+  k_visa: 'Visa', k_req: 'Eligibility', k_class: 'Classes', k_cost: 'Tuition', k_bal: 'Bank balance',
+  v_req_ls: 'High school graduate', v_req_deg: 'High school graduate + language score (e.g. TOPIK 2)',
+  v_class_ls: '10 weeks · 200 hours per term', v_class_deg: '30+ departments, 3- or 4-year programs',
+  v_cost_ls: '{fee} per year (4 terms)', v_cost_deg: '{min}–{max} per semester, 50–80% scholarship by language level',
+  v_bal_ls: '{lsbal} or more', v_bal_deg: '{bal} or more ({kmcu} for KMCU language students)',
+  bridge: '<b>Finish our Korean course, then apply for a degree,</b> and the required bank balance drops from {bal} to {kmcu}.',
+  hello_ls: 'Let\'s check your eligibility for the <b>KMCU Korean Language Institute (D-4)</b>.',
+  hello_deg: 'Let\'s check your eligibility for a <b>degree program starting March 2027 (D-2)</b>.',
+  q: {
+    edu: ['What is your highest education?', { grad: 'High school graduate or higher', soon: 'Final year of high school (graduating before entry)', no: 'None of these' }],
+    kor: ['Do you hold Korean nationality (including dual)?', { no: 'No, foreign nationality only', yes: 'Yes' }],
+    parent: ['Are both of your parents foreign nationals?', { yes: 'Yes, both', no: 'No, one is Korean' }],
+    country: ['What is your nationality?', { uz: 'Uzbekistan', vn: 'Vietnam', cn: 'China', mn: 'Mongolia', other: 'Another country' }],
+    gap: ['Has it been 2 years or more since you graduated?', { no: 'No', yes: 'Yes, 2+ years' }],
+    money: ['Can you prepare a bank balance of {bal}?', { yes: 'Yes', unsure: 'Not sure yet' }],
+    where: ['Where are you now?', { abroad: 'Abroad (home country)', kmcu: 'Korea · KMCU Korean Language Institute student', ef: 'Korea · E or F visa', other: 'Korea · other visa' }],
+    lang: ['Which language score do you have?', { t6: 'TOPIK 6 · KIIP level 5 (advanced)', t5: 'TOPIK 5 · KIIP level 5 (basic)', t2: 'TOPIK 2–4 · KIIP level 2–4', sejong: 'King Sejong Institute 2B or higher', eng: 'English (TOEFL iBT 59 · IELTS 5.5 · CEFR B2, etc.)', kmcu: 'Passed the KMCU Korean entrance test', none: 'None yet' }],
+  },
+  r_ok: 'You can apply', r_cond: 'You can apply once you meet a condition', r_no: 'You can\'t apply with your current situation',
+  r_notes: 'Check these', r_sched: 'Next dates', r_cost: 'Estimated costs', r_bal: 'Bank balance', r_docs: 'Documents to prepare', r_tuition: 'First-semester tuition (with scholarship)', r_int: 'Interview', r_bridge: 'What comes next',
+  no_edu: 'You need at least a high school diploma.',
+  no_kor: 'Applicants with Korean nationality (including dual) can\'t apply through the international track.',
+  no_parent: 'For the degree track, you and both parents must be foreign nationals.',
+  soon: 'You must graduate before entry. Prepare your (expected) graduation certificate.',
+  money_unsure: 'A bank balance of at least {bal} is required for the visa. Start preparing it early.',
+  gap_note: 'Because 2+ years have passed since graduation, you also need a letter of explanation.',
+  ccvi: 'For your country, the school first applies for a Certificate of Visa Issuance. A 6-month bank statement may be requested afterwards.',
+  lang_none: 'A language score is required. Pass the KMCU Korean entrance test, or study at our Korean Language Institute first.',
+  lang_temp: 'You get a 50% scholarship in your first semester. From the second semester, submit TOPIK 2 or KIIP level 2+ to keep it.',
+  ef: 'E and F visa holders submit fewer documents. Contact the International Student Support Team first.',
+  kmcu_student: 'Submit your Korean Language Institute records (enrollment, grades, attendance, completion). Attendance must be 70%+ last term.',
+  ls_open: '<b>{term}</b> applications open: {a} – {b}', ls_next: '<b>{term}</b> applications: {a} – {b}', ls_class: 'Classes: {a} – {b}',
+  ls_tba: 'The 2027 schedule hasn\'t been announced yet. Last year, spring-term applications ran from Nov 17 to Dec 31. Contact the team for dates.',
+  deg_open: '<b>Round {n}</b> applications open: {a} – {b}', deg_next: '<b>Round {n}</b> applications: {a} – {b}', deg_after: 'Interview: {i} · Results: {r}',
+  deg_closed: 'All rounds for March 2027 are closed.',
+  c_app: 'Application fee (once)', c_year: 'Tuition, 1 year (4 terms)', c_topik: 'TOPIK exam fee', c_dorm: 'Dormitory (meals not included)',
+  bal_valid: 'or more · issued within 1 month of the application',
+  balc: { uz: 'Bank balance certificate from KDB Bank, or 3+ months of bank statements', vn: 'Deposit certificate under the Vietnam special rule (e.g. Woori Bank Vietnam)', cn: 'Balance certificate with at least 30 days of deposit freeze remaining', mn: 'Original bank balance certificate', other: 'Original bank balance certificate' },
+  bal_6m: 'A statement of 6+ months of transactions may be requested 1–2 weeks after you submit.',
+  bal_deg: 'Original · issued within 1 month · include proof of funds (e.g. remittance records)',
+  d: { sheet: 'Personal information form (Excel)', passport: 'Passport copy · ID photo (JPG)', bal: 'Bank balance certificate (original)', edu: 'Final education certificate (original + notarized translation)', income: 'Guardian\'s income certificate', family: 'Family relation certificate (death/divorce certificate if applicable)', pid: 'Copy of guardian\'s ID', birth: 'Birth certificate', app: 'Application form · personal statement', translator: 'Translator\'s confirmation (with translator ID)', explain: 'Letter of explanation', photos: 'Photos of family, guardian\'s workplace and home', langscore: 'One language score (TOPIK, etc.)', lsdocs: 'Korean Language Institute records', visafee: 'Visa change fee KRW 135,000', lease: 'Housing lease contract (Daegu)' },
+  educ: { uz: 'apostille + Ministry of Foreign Affairs notarization', vn: 'consular confirmation', cn: 'CHESICC verification report (apostille accepted)', mn: 'apostille or consular confirmation', other: 'apostille or consular confirmation', deg: 'apostille or consular confirmation · within 6 months' },
+  docs_note: 'Documents not in Korean or English need a notarized translation (notarized within 6 months). Submitted documents are not returned.',
+  g: { hum1: 'Humanities & Social', hum2: 'Health Administration', eng: 'Engineering · Science · Arts & Sports' },
+  th_group: 'Field', th_base: 'Tuition', th_sch: 'Scholarship', th_pay: 'You pay',
+  union_note: 'Plus KRW 79,000 student union fee · Tuition may change.',
+  int_text: 'In-depth interview, 100 points (motivation, adaptability, expression, subject knowledge, 25% each). Below 50 points or no-show means fail. Performing Music holds an in-person audition.',
+  bridge_r: 'After the Korean course, you can move on to a degree program. Your bank balance requirement will then be just {kmcu}.',
+  btn_apply: 'Apply online', btn_contact: 'Ask us', btn_to_ls: 'Check Language Course', btn_to_deg: 'Check Degree Program', btn_restart: 'Start over',
+  guide_title: 'Full guide', guide_desc: 'Key points from the official admission guides. Always check the official guide before you apply.',
+  fold_open: 'View details', fold_close: 'Close',
+  gt_ls: 'Korean Language Institute (D-4)', gt_deg: 'Degree Program (March 2027 · D-2)', gt_dept: 'Departments', gt_dorm: 'Dormitory (Dongsan Hall)',
+  terms: { spring: 'Spring', summer: 'Summer', fall: 'Fall', winter: 'Winter' },
+  th_term: 'Term', th_classp: 'Classes', th_apply: 'Applications', th_int: 'Interview (online)',
+  h_sched: 'Term schedule', h_cost: 'Costs', h_steps: 'How to apply', h_docs: 'Documents', h_perks: 'Benefits', h_req: 'Eligibility', h_rounds: 'Admission rounds', h_sch: 'Scholarships (first semester)', h_how: 'How to submit',
+  ls_hours: '10 weeks · 200 hours per term (Mon–Fri, 4 hours a day). Dates may change depending on visa processing.',
+  steps: ['Submit documents (email + originals by post or in person)', 'Interview after document review (Zoom, etc.)', 'Results · pay tuition (invoice issued)', 'Certificate of Admission issued', 'Certificate of Visa Issuance applied (Uzbekistan, Vietnam, China, Mongolia)', 'Certificate of Visa Issuance result', 'Apply for the visa at the Korean embassy', 'Visa issued', 'Arrival · orientation · health check'],
+  ls_docs_extra: 'Translator\'s confirmation, letter of explanation and family photos are only for Uzbekistan, Vietnam, China and Mongolia.',
+  perks: ['Health insurance covered for the first 6 months', 'KRW 250,000 award for TOPIK 3 or higher', 'Cultural trips and company visits every term', 'Support in Vietnamese, Chinese, Japanese and English', 'Move on to a degree program after completion'],
+  req: ['High school graduate (or equivalent)', 'You and both parents are foreign nationals', 'Eligible for a D-2-1 visa', 'One language score: TOPIK 2 · KIIP level 2 · King Sejong 2B · English (TOEFL iBT 59, etc.) · KMCU Korean entrance test'],
+  th_round: 'Round', th_apply2: 'Applications', th_int2: 'Interview', th_result: 'Results',
+  reg_note: 'Registration: deposit Dec 21–23, 2026 · additional Dec 24–31 · final Feb 10–12, 2027',
+  th_cond: 'Requirement', th_rate: 'Discount',
+  sch: { t2: 'TOPIK 2–4 · KIIP 2–4 · King Sejong 2B · English score', t5: 'TOPIK 5 · KIIP 5 (basic)', t6: 'TOPIK 6 · KIIP 5 (advanced)' },
+  sch_after: 'Current students keep getting 20% (TOPIK 2) up to 80% (TOPIK 6). Enroll with a friend for a KRW 300,000 mentor-mentee grant per person (conditions apply).',
+  th_doc: 'Document', th_abroad: 'From abroad', th_dom: 'From Korea',
+  how: 'In person: International Affairs, Welfare Building 2F (weekdays 09:00–19:00, Sat until 14:00) · By post: must arrive by 18:00 on the deadline · Email: ofofarmer@kmcu.ac.kr',
+  th_room: 'Building', th_type: 'Room', th_price: 'Fee',
+  dorm: { m2: ['Men · off-campus studio', '2 per room'], fA4: ['Women · on-campus A', '4 per room'], fB4: ['Women · on-campus B', '4 per room'], fB2: ['Women · on-campus B', '2 per room'] },
+  dorm_note: 'Meals not included (cook yourself or use the cafeteria) · Dormitory office +82-53-589-7982',
+  links_title: 'Always check<br>official sources.',
+  links_desc: 'This page helps you plan. Dates and documents can change, so check the official admission guide before you apply.',
+  l: { applyLs: ['Language course application', 'APPLY ONLINE'], applyDeg: ['Degree program application', 'APPLY ONLINE'], lsInfo: ['Korean Language Institute admissions', 'Admission guide PDF'], degInfo: ['Undergraduate admissions', 'Guide · application form'], global: ['International Affairs website', 'Notices · downloads'] },
+  contact_title: 'Contact us', c1: 'Korean · English', c2: 'Korean · Vietnamese', c_mail: 'Email', c_addr: 'Address',
+  addr: 'Welfare Building 2F, 675 Dalseo-daero, Dalseo-gu, Daegu 42601 · Subway Line 2, Keimyung Univ. Station Exit 7, 10 min walk',
+  footer: 'Based on the 2026 Korean Language Institute and March 2027 international student admission guides. Dates and fees may change; please check the official guide before you apply. © KMCU Office of International Affairs',
+},
+es: {
+  nav_ls: 'Curso de coreano', nav_deg: 'Carrera', nav_guide: 'Guía completa', nav_contact: 'Contacto', brand_sub: 'Guía de estudios', back: '← Inicio',
+  hero_title: 'Empieza a estudiar<br>en Corea en KMCU.',
+  hero_desc: 'Dos vías de ingreso: el Instituto de Lengua Coreana y las carreras. Responde unas preguntas y conoce tus requisitos y los documentos que necesitas.',
+  cta_ls: 'Curso de coreano', cta_deg: 'Carrera',
+  about_title: 'Del coreano a tu carrera,<br>en un mismo campus.',
+  about_desc: 'Basado en las convocatorias de la Oficina de Asuntos Internacionales de KMCU: Instituto de Coreano 2026 e ingreso de marzo de 2027.',
+  about: [['check', 'Comprueba <b>si puedes postular</b> con unas preguntas'], ['pct', 'Calcula la <b>matrícula con beca</b> según tu nivel'], ['file', 'Obtén la <b>lista de documentos</b> para tu caso'], ['cal', 'Consulta <b>qué ronda está abierta</b>']],
+  cmp_title: 'Dos formas de estudiar en KMCU', cmp_desc: 'Elige según tu objetivo. También puedes pasar del curso de coreano a una carrera.',
+  ls_name: 'Curso de coreano', ls_full: 'Instituto de Lengua Coreana', deg_name: 'Carrera universitaria', deg_full: 'Técnico superior · Licenciatura',
+  flow_ls: [['Llegada', 'Visa D-4'], ['Curso de coreano', '10 semanas × 4'], ['Fin del curso', 'Paso a carrera']],
+  flow_deg: [['Postulación', 'Rondas 1–3'], ['Entrevista', 'Por carrera'], ['Ingreso', 'Marzo 2027']],
+  k_visa: 'Visa', k_req: 'Requisitos', k_class: 'Clases', k_cost: 'Matrícula', k_bal: 'Saldo bancario',
+  v_req_ls: 'Bachillerato terminado', v_req_deg: 'Bachillerato + nivel de idioma (p. ej. TOPIK 2)',
+  v_class_ls: '10 semanas · 200 horas por trimestre', v_class_deg: 'Más de 30 carreras de 3 o 4 años',
+  v_cost_ls: '{fee} al año (4 trimestres)', v_cost_deg: '{min}–{max} por semestre, beca del 50–80% según idioma',
+  v_bal_ls: '{lsbal} o más', v_bal_deg: '{bal} o más ({kmcu} si estudiaste en nuestro instituto)',
+  bridge: '<b>Si terminas nuestro curso de coreano y postulas a una carrera,</b> el saldo bancario exigido baja de {bal} a {kmcu}.',
+  hello_ls: 'Comprobemos tus requisitos para el <b>Instituto de Lengua Coreana de KMCU (D-4)</b>.',
+  hello_deg: 'Comprobemos tus requisitos para una <b>carrera con ingreso en marzo de 2027 (D-2)</b>.',
+  q: {
+    edu: ['¿Cuál es tu nivel de estudios?', { grad: 'Bachillerato terminado o superior', soon: 'Último año de secundaria (me gradúo antes del ingreso)', no: 'Ninguno' }],
+    kor: ['¿Tienes nacionalidad coreana (incluida doble)?', { no: 'No, solo extranjera', yes: 'Sí' }],
+    parent: ['¿Tus dos padres son extranjeros?', { yes: 'Sí, los dos', no: 'No, uno es coreano' }],
+    country: ['¿Cuál es tu nacionalidad?', { uz: 'Uzbekistán', vn: 'Vietnam', cn: 'China', mn: 'Mongolia', other: 'Otro país' }],
+    gap: ['¿Han pasado 2 años o más desde tu graduación?', { no: 'No', yes: 'Sí, 2 años o más' }],
+    money: ['¿Puedes acreditar un saldo bancario de {bal}?', { yes: 'Sí', unsure: 'Todavía no lo sé' }],
+    where: ['¿Dónde estás ahora?', { abroad: 'En el extranjero (mi país)', kmcu: 'En Corea · alumno del Instituto de Coreano de KMCU', ef: 'En Corea · visa E o F', other: 'En Corea · otra visa' }],
+    lang: ['¿Qué certificado de idioma tienes?', { t6: 'TOPIK 6 · KIIP nivel 5 (avanzado)', t5: 'TOPIK 5 · KIIP nivel 5 (básico)', t2: 'TOPIK 2–4 · KIIP nivel 2–4', sejong: 'Instituto Rey Sejong 2B o superior', eng: 'Inglés (TOEFL iBT 59 · IELTS 5.5 · MCER B2, etc.)', kmcu: 'Aprobé el examen de coreano de KMCU', none: 'Ninguno todavía' }],
+  },
+  r_ok: 'Puedes postular', r_cond: 'Puedes postular si cumples una condición', r_no: 'Con tu situación actual no puedes postular',
+  r_notes: 'Revisa esto', r_sched: 'Próximas fechas', r_cost: 'Costos estimados', r_bal: 'Saldo bancario', r_docs: 'Documentos que necesitas', r_tuition: 'Matrícula del primer semestre (con beca)', r_int: 'Entrevista', r_bridge: 'Siguiente paso',
+  no_edu: 'Necesitas como mínimo el bachillerato terminado.',
+  no_kor: 'Quien tiene nacionalidad coreana (incluida doble) no puede postular por la vía de extranjeros.',
+  no_parent: 'Para la carrera, tú y tus dos padres deben ser extranjeros.',
+  soon: 'Debes graduarte antes del ingreso. Prepara tu certificado de graduación (o de graduación prevista).',
+  money_unsure: 'Para la visa se exige un saldo de al menos {bal}. Empieza a prepararlo con tiempo.',
+  gap_note: 'Como han pasado 2 años o más desde tu graduación, debes añadir una carta explicativa.',
+  ccvi: 'Para tu país, la universidad solicita primero el Certificado de Emisión de Visa. Después pueden pedirte extractos bancarios de 6 meses.',
+  lang_none: 'Se exige un certificado de idioma. Puedes aprobar el examen de coreano de KMCU o estudiar primero en nuestro Instituto de Coreano.',
+  lang_temp: 'El primer semestre tienes 50% de beca. Desde el segundo, presenta TOPIK 2 o KIIP nivel 2 para mantenerla.',
+  ef: 'Con visa E o F se presentan menos documentos. Consulta primero al equipo de apoyo.',
+  kmcu_student: 'Presenta tus registros del Instituto de Coreano (matrícula, notas, asistencia, certificado). Asistencia mínima del 70% el último trimestre.',
+  ls_open: '<b>{term}</b>: postulación abierta del {a} al {b}', ls_next: '<b>{term}</b>: postulación del {a} al {b}', ls_class: 'Clases: del {a} al {b}',
+  ls_tba: 'Las fechas de 2027 aún no se han publicado. El año pasado, la postulación de primavera fue del 17 de noviembre al 31 de diciembre. Consulta al equipo.',
+  deg_open: '<b>Ronda {n}</b>: postulación abierta del {a} al {b}', deg_next: '<b>Ronda {n}</b>: postulación del {a} al {b}', deg_after: 'Entrevista: {i} · Resultados: {r}',
+  deg_closed: 'Todas las rondas para marzo de 2027 están cerradas.',
+  c_app: 'Tasa de postulación (una vez)', c_year: 'Matrícula 1 año (4 trimestres)', c_topik: 'Examen TOPIK', c_dorm: 'Residencia (sin comidas)',
+  bal_valid: 'o más · emitido como máximo 1 mes antes',
+  balc: { uz: 'Certificado de saldo del KDB Bank, o extractos de 3 meses o más', vn: 'Certificado de depósito según la norma especial de Vietnam (p. ej. Woori Bank Vietnam)', cn: 'Certificado con al menos 30 días de congelación del depósito', mn: 'Certificado de saldo original', other: 'Certificado de saldo original' },
+  bal_6m: 'Entre 1 y 2 semanas después pueden pedirte movimientos bancarios de 6 meses o más.',
+  bal_deg: 'Original · emitido como máximo 1 mes antes · con justificante del origen (p. ej. transferencias)',
+  d: { sheet: 'Formulario de datos personales (Excel)', passport: 'Copia del pasaporte · foto (JPG)', bal: 'Certificado de saldo bancario (original)', edu: 'Certificado de estudios (original + traducción notarizada)', income: 'Certificado de ingresos del tutor', family: 'Certificado de relación familiar (defunción/divorcio si aplica)', pid: 'Copia del documento del tutor', birth: 'Partida de nacimiento', app: 'Solicitud · carta de presentación', translator: 'Confirmación del traductor (con su documento)', explain: 'Carta explicativa', photos: 'Fotos de la familia, del trabajo y la casa del tutor', langscore: 'Un certificado de idioma (TOPIK, etc.)', lsdocs: 'Registros del Instituto de Coreano', visafee: 'Tasa de cambio de visa KRW 135.000', lease: 'Contrato de alquiler (Daegu)' },
+  educ: { uz: 'apostilla + legalización del Ministerio de Exteriores', vn: 'legalización consular', cn: 'informe de verificación CHESICC (se acepta apostilla)', mn: 'apostilla o legalización consular', other: 'apostilla o legalización consular', deg: 'apostilla o legalización consular · máx. 6 meses' },
+  docs_note: 'Los documentos que no estén en coreano o inglés necesitan traducción notarizada (de los últimos 6 meses). Los documentos no se devuelven.',
+  g: { hum1: 'Humanidades y Sociales', hum2: 'Administración Sanitaria', eng: 'Ingeniería · Ciencias · Artes y Deporte' },
+  th_group: 'Área', th_base: 'Matrícula', th_sch: 'Beca', th_pay: 'Pagas',
+  union_note: 'Más KRW 79.000 de cuota estudiantil · La matrícula puede cambiar.',
+  int_text: 'Entrevista de 100 puntos (motivación, adaptación, expresión y conocimientos, 25% cada uno). Menos de 50 puntos o no presentarse implica no admisión. Música Escénica tiene prueba práctica presencial.',
+  bridge_r: 'Al terminar el curso de coreano puedes pasar a una carrera, y entonces el saldo exigido es solo {kmcu}.',
+  btn_apply: 'Postular en línea', btn_contact: 'Consultar', btn_to_ls: 'Evaluar curso de coreano', btn_to_deg: 'Evaluar carrera', btn_restart: 'Empezar de nuevo',
+  guide_title: 'Guía completa', guide_desc: 'Lo esencial de las convocatorias oficiales. Revisa siempre la convocatoria oficial antes de postular.',
+  fold_open: 'Ver detalles', fold_close: 'Cerrar',
+  gt_ls: 'Instituto de Lengua Coreana (D-4)', gt_deg: 'Carrera (marzo 2027 · D-2)', gt_dept: 'Carreras', gt_dorm: 'Residencia (Dongsan)',
+  terms: { spring: 'Primavera', summer: 'Verano', fall: 'Otoño', winter: 'Invierno' },
+  th_term: 'Trimestre', th_classp: 'Clases', th_apply: 'Postulación', th_int: 'Entrevista (en línea)',
+  h_sched: 'Calendario', h_cost: 'Costos', h_steps: 'Cómo postular', h_docs: 'Documentos', h_perks: 'Beneficios', h_req: 'Requisitos', h_rounds: 'Rondas de admisión', h_sch: 'Becas (primer semestre)', h_how: 'Cómo entregar',
+  ls_hours: '10 semanas · 200 horas por trimestre (lun–vie, 4 horas al día). Las fechas pueden cambiar según el trámite de visa.',
+  steps: ['Envío de documentos (correo + originales por correo postal o en persona)', 'Entrevista tras revisar los documentos (Zoom, etc.)', 'Resultados · pago de matrícula (factura)', 'Emisión de la carta de admisión', 'Solicitud del Certificado de Emisión de Visa (Uzbekistán, Vietnam, China, Mongolia)', 'Resultado del certificado', 'Solicitud de visa en la embajada de Corea', 'Emisión de la visa', 'Llegada · orientación · chequeo médico'],
+  ls_docs_extra: 'La confirmación del traductor, la carta explicativa y las fotos familiares solo se piden a Uzbekistán, Vietnam, China y Mongolia.',
+  perks: ['Seguro médico cubierto los primeros 6 meses', 'Premio de KRW 250.000 por TOPIK 3 o superior', 'Salidas culturales y visitas a empresas cada trimestre', 'Atención en vietnamita, chino, japonés e inglés', 'Pasar a una carrera al terminar el curso'],
+  req: ['Bachillerato terminado (o equivalente)', 'Tú y tus dos padres con nacionalidad extranjera', 'Cumplir los requisitos de la visa D-2-1', 'Un certificado de idioma: TOPIK 2 · KIIP 2 · Rey Sejong 2B · inglés (TOEFL iBT 59, etc.) · examen de coreano de KMCU'],
+  th_round: 'Ronda', th_apply2: 'Postulación', th_int2: 'Entrevista', th_result: 'Resultados',
+  reg_note: 'Inscripción: depósito 21–23 dic. 2026 · adicional 24–31 dic. · final 10–12 feb. 2027',
+  th_cond: 'Requisito', th_rate: 'Descuento',
+  sch: { t2: 'TOPIK 2–4 · KIIP 2–4 · Rey Sejong 2B · inglés', t5: 'TOPIK 5 · KIIP 5 (básico)', t6: 'TOPIK 6 · KIIP 5 (avanzado)' },
+  sch_after: 'Los alumnos siguen con beca del 20% (TOPIK 2) al 80% (TOPIK 6). Si ingresas con un amigo, ayuda mentor-mentee de KRW 300.000 por persona (con condiciones).',
+  th_doc: 'Documento', th_abroad: 'Desde el extranjero', th_dom: 'Desde Corea',
+  how: 'En persona: Oficina Internacional, edificio de Bienestar 2.º piso (lun–vie 09:00–19:00, sáb hasta 14:00) · Por correo: debe llegar antes de las 18:00 del último día · Email: ofofarmer@kmcu.ac.kr',
+  th_room: 'Edificio', th_type: 'Habitación', th_price: 'Precio',
+  dorm: { m2: ['Hombres · estudio fuera del campus', '2 por habitación'], fA4: ['Mujeres · campus A', '4 por habitación'], fB4: ['Mujeres · campus B', '4 por habitación'], fB2: ['Mujeres · campus B', '2 por habitación'] },
+  dorm_note: 'Sin comidas (cocina propia o comedor) · Residencia +82-53-589-7982',
+  links_title: 'Consulta siempre<br>las fuentes oficiales.',
+  links_desc: 'Esta página sirve para orientarte. Fechas y documentos pueden cambiar; revisa la convocatoria oficial antes de postular.',
+  l: { applyLs: ['Postulación al curso de coreano', 'APPLY ONLINE'], applyDeg: ['Postulación a carrera', 'APPLY ONLINE'], lsInfo: ['Admisión al Instituto de Coreano', 'Convocatoria PDF'], degInfo: ['Admisión de grado', 'Convocatoria · formulario'], global: ['Web de Asuntos Internacionales', 'Avisos · descargas'] },
+  contact_title: 'Contacto', c1: 'Coreano · inglés', c2: 'Coreano · vietnamita', c_mail: 'Email', c_addr: 'Dirección',
+  addr: 'Edificio de Bienestar 2.º piso, 675 Dalseo-daero, Dalseo-gu, Daegu 42601 · Metro línea 2, estación Keimyung Univ., salida 7, 10 min a pie',
+  footer: 'Según las convocatorias 2026 del Instituto de Coreano y de estudiantes internacionales para marzo de 2027. Fechas y precios pueden cambiar; revisa la convocatoria oficial antes de postular. © Oficina de Asuntos Internacionales de KMCU',
+},
+};
+
+// ===== 도우미 =====
+const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+const LOC = { ko: 'ko-KR', en: 'en-US', es: 'es-ES' }, LI = { ko: 0, en: 1, es: 2 };
+const today = new Date().toLocaleDateString('sv'); // YYYY-MM-DD
+let lang = 'ko';
+try { lang = localStorage.getItem('lang') || (navigator.language.startsWith('es') ? 'es' : navigator.language.startsWith('ko') ? 'ko' : 'en'); } catch (e) {}
+if (!T[lang]) lang = 'ko';
+const L = () => T[lang];
+const fill = (s, o) => s.replace(/\{(\w+)\}/g, (m, k) => o[k] ?? m);
+const fmt = n => lang === 'ko' ? n.toLocaleString('ko-KR') + '원' : '₩' + n.toLocaleString(LOC[lang]);
+const fd = d => new Date(d + 'T00:00:00').toLocaleDateString(LOC[lang], { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short' });
+const fr = (a, b) => a === b ? fd(a) : fd(a) + ' ~ ' + fd(b);
+const M = () => ({ fee: fmt(D.ls.fee), lsbal: fmt(D.ls.bal), bal: fmt(D.deg.bal), kmcu: fmt(D.deg.balKmcu), min: fmt(D.deg.groups[0][2]), max: fmt(D.deg.groups[2][1]) });
+const ul = a => `<ul>${a.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const checks = a => `<ul class="checks">${a.map(x => `<li><label><input type="checkbox"> ${x}</label></li>`).join('')}</ul>`;
+const table = (head, rows, numCols = []) => `<div class="tw"><table>${head ? `<tr>${head.map((h, i) => `<th class="${numCols.includes(i) ? 'num' : ''}">${h}</th>`).join('')}</tr>` : ''}${rows.map(r => `<tr>${r.map((c, i) => `<td class="${numCols.includes(i) ? 'num' : ''}">${c}</td>`).join('')}</tr>`).join('')}</table></div>`;
+const sec = (title, body) => `<div class="rsec"><h4>${title}</h4>${body}</div>`;
+const isDiag = () => document.body.classList.contains('diag');
+
+// ===== 정적 영역 =====
+function renderStatic() {
+  const t = L(), m = M();
+  document.documentElement.lang = lang;
+  $$('[data-i]').forEach(el => { el.innerHTML = fill(t[el.dataset.i] ?? '', m); });
+  $$('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  $('#about').innerHTML = t.about.map(([k, s]) => `<li><span class="ico">${svg(k)}</span><span>${s}</span></li>`).join('');
+  const card = (k, img, rows) => `<article class="card"><img src="assets/img/${img}" alt="" loading="lazy"><div class="in">
+    <div class="eyebrow">${t[k + '_full']}</div><h3>${t[k + '_name']}</h3>
+    <ol class="pflow">${t['flow_' + k].map(([a, b]) => `<li>${a}<span>${b}</span></li>`).join('')}</ol>
+    <dl class="pspec">${rows.map(([a, b]) => `<dt>${t[a]}</dt><dd>${fill(b, m)}</dd>`).join('')}</dl>
+    <button class="pill dark sm" data-go="${k}">${t['cta_' + k]} →</button></div></article>`;
+  $('#tracks').innerHTML =
+    card('ls', 'ls.jpg', [['k_visa', 'D-4-1'], ['k_req', t.v_req_ls], ['k_class', t.v_class_ls], ['k_cost', t.v_cost_ls], ['k_bal', t.v_bal_ls]]) +
+    card('deg', 'deg.jpg', [['k_visa', 'D-2-1'], ['k_req', t.v_req_deg], ['k_class', t.v_class_deg], ['k_cost', t.v_cost_deg], ['k_bal', t.v_bal_deg]]);
+  renderGuide();
+  $('#links').innerHTML = Object.entries(t.l).map(([k, [a, b]], i) => `<a class="banner ${i < 2 ? 'primary' : ''}" href="${D.url[k]}" target="_blank" rel="noopener"><span>${a}<small>${b}</small></span><span>↗</span></a>`).join('');
+  $('#contacts').innerHTML = `
+    <a class="banner" href="tel:+82535897941"><span>053-589-7941<small>${t.c1} · KakaoTalk ID: kmcu7941</small></span><span>☎</span></a>
+    <a class="banner" href="tel:+82535897359"><span>053-589-7359<small>${t.c2} · KakaoTalk ID: Trangmilo2305</small></span><span>☎</span></a>
+    <a class="banner" href="mailto:ofofarmer@kmcu.ac.kr"><span>ofofarmer@kmcu.ac.kr<small>${t.c_mail}</small></span><span>✉</span></a>
+    <div class="banner"><span>${t.c_addr}<small>${t.addr}</small></span></div>`;
+}
+
+function renderGuide() {
+  const t = L(), i = LI[lang], g = D.deg;
+  const lsDocs = ['sheet', 'passport', 'bal', 'edu', 'income', 'family', 'pid', 'birth', 'app', 'translator', 'explain', 'photos'];
+  const degDocs = [['app', 1, 1], ['edu', 1, 1], ['bal', 1, 1], ['income', 1, 0], ['family', 1, 1], ['pid', 1, 0], ['birth', 1, 1], ['langscore', 1, 1], ['lsdocs', 0, 1], ['passport', 1, 1], ['visafee', 0, 1], ['lease', 0, 1]];
+  const dot = v => v ? '●' : '–';
+  const fold = (title, body) => `<details><summary><span>${title}</span><span class="tog"><span class="closed">${t.fold_open}</span><span class="open">${t.fold_close}</span></span></summary><div class="in">${body}</div></details>`;
+  $('#guideBody').innerHTML =
+  fold(t.gt_ls, `
+    <h4>${t.h_sched}</h4><p class="small">${t.ls_hours}</p>
+    ${table([t.th_term, t.th_classp, t.th_apply, t.th_int], D.ls.terms.map(x => [`<b>${t.terms[x[0]]}</b>`, fr(x[1], x[2]), fr(x[3], x[4]), fr(x[5], x[6])]))}
+    <h4>${t.h_cost}</h4>${table(null, [[t.c_app, fmt(D.ls.app)], [t.c_year, fmt(D.ls.fee)], [t.c_topik, fmt(D.ls.topik)]], [1])}
+    <h4>${t.h_steps}</h4><ol>${t.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+    <h4>${t.h_docs}</h4>${ul(lsDocs.map(k => t.d[k]))}<p class="small">${t.ls_docs_extra} ${t.docs_note}</p>
+    <h4>${t.h_perks}</h4>${ul(t.perks)}`) +
+  fold(t.gt_deg, `
+    <h4>${t.h_req}</h4>${ul(t.req)}
+    <h4>${t.h_rounds}</h4>
+    ${table([t.th_round, t.th_apply2, t.th_int2, t.th_result], g.rounds.map(r => [`<b>${r[0]}</b>`, fr(r[1], r[2]), fr(r[3], r[4]), fd(r[5])]))}
+    <p class="small">${t.reg_note}</p>
+    <h4>${t.h_sch}</h4>
+    ${table([t.th_cond, t.th_rate, ...g.groups.map(x => t.g[x[0]])], [['t2', .5], ['t5', .7], ['t6', .8]].map(([k, r]) => [t.sch[k], `<b>${r * 100}%</b>`, ...g.groups.map(x => fmt(x[1] - Math.round(x[1] * r)))]), [2, 3, 4])}
+    <p class="small">${t.union_note} ${t.sch_after}</p>
+    <h4>${t.h_docs}</h4>
+    ${table([t.th_doc, t.th_abroad, t.th_dom], degDocs.map(([k, a, b]) => [t.d[k], dot(a), dot(b)]))}
+    <p class="small">${t.docs_note}</p>
+    <h4>${t.r_int}</h4><p>${t.int_text}</p>
+    <h4>${t.h_how}</h4><p>${t.how}</p>`) +
+  fold(t.gt_dept, `<div class="depts">${DEPTS.map(([f, ds]) => `<div><h5>${f[i]}</h5><ul>${ds.map(d => `<li>${d[i]}</li>`).join('')}</ul></div>`).join('')}</div>`) +
+  fold(t.gt_dorm, `${table([t.th_room, t.th_type, t.th_price], D.dorm.map(([k, p]) => [t.dorm[k][0], t.dorm[k][1], fmt(p)]), [2])}<p class="small">${t.dorm_note}</p>`);
+}
+
+// ===== 진단 =====
+let S = { track: 'ls', a: {} };
+const FLOW = {
+  ls: a => a.edu == null ? 'edu' : a.edu === 'no' ? null
+    : a.kor == null ? 'kor' : a.kor === 'yes' ? null
+    : a.country == null ? 'country'
+    : FOUR.includes(a.country) && a.gap == null ? 'gap'
+    : a.money == null ? 'money' : null,
+  deg: a => a.edu == null ? 'edu' : a.edu === 'no' ? null
+    : a.kor == null ? 'kor' : a.kor === 'yes' ? null
+    : a.parent == null ? 'parent' : a.parent === 'no' ? null
+    : a.where == null ? 'where'
+    : a.lang == null ? 'lang' : null,
+};
+const chat = () => $('#chat');
+function say(html, me) {
+  const d = document.createElement('div');
+  d.className = 'msg' + (me ? ' me' : '');
+  d.innerHTML = (me ? '' : '<div class="av"><img src="assets/img/emblem.png" alt=""></div>') + `<div class="bub">${html}</div>`;
+  chat().append(d);
+  d.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function start(track) {
+  S = { track, a: {} };
+  document.body.classList.add('diag');
+  window.scrollTo(0, 0);
+  chat().innerHTML = `<div class="top"><button class="pill line sm" data-home>${L().back}</button></div>`;
+  say(L()['hello_' + track]);
+  setTimeout(step, 350);
+}
+function step() {
+  const id = FLOW[S.track](S.a);
+  if (!id) return result();
+  const [q, opts] = L().q[id];
+  say(fill(q, { bal: fmt(D.ls.bal) }));
+  const box = document.createElement('div'); box.className = 'opts';
+  for (const [v, label] of Object.entries(opts)) {
+    const b = document.createElement('button'); b.textContent = label;
+    b.onclick = () => { box.remove(); say(label, true); S.a[id] = v; setTimeout(step, 350); };
+    box.append(b);
+  }
+  chat().append(box);
+  box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function result() {
+  const t = L(), a = S.a, r = S.track === 'ls' ? lsResult(t, a) : degResult(t, a);
+  const d = document.createElement('div'); d.className = 'result';
+  d.innerHTML = `<div class="status ${r.st}">${t['r_' + r.st]}</div>
+    ${r.notes.length ? sec(t.r_notes, ul(r.notes)) : ''}${r.body || ''}
+    <div class="actions">${r.actions.join('')}<button class="pill line sm" onclick="start('${S.track}')">${t.btn_restart}</button></div>`;
+  chat().append(d);
+  d.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+const linkBtn = (href, label, primary) => `<a class="pill sm ${primary ? 'dark' : 'line'}" href="${href}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : 'data-home'}>${label}</a>`;
+const goBtn = (track, label) => `<button class="pill line sm" onclick="start('${track}')">${label} →</button>`;
+
+function lsResult(t, a) {
+  const notes = [], contact = linkBtn('#contact', t.btn_contact);
+  if (a.edu === 'no') return { st: 'no', notes: [t.no_edu], actions: [contact] };
+  if (a.kor === 'yes') return { st: 'no', notes: [t.no_kor], actions: [contact] };
+  let st = 'ok';
+  const four = FOUR.includes(a.country);
+  if (a.edu === 'soon') { st = 'cond'; notes.push(t.soon); }
+  if (a.money === 'unsure') { st = 'cond'; notes.push(fill(t.money_unsure, { bal: fmt(D.ls.bal) })); }
+  if (a.gap === 'yes') notes.push(t.gap_note);
+  if (four) notes.push(t.ccvi);
+  const nt = D.ls.terms.find(x => x[4] >= today);
+  const sched = nt
+    ? `<p>${fill(nt[3] <= today ? t.ls_open : t.ls_next, { term: t.terms[nt[0]], a: fd(nt[3]), b: fd(nt[4]) })}<br><span class="small">${fill(t.ls_class, { a: fd(nt[1]), b: fd(nt[2]) })}</span></p>`
+    : `<p>${t.ls_tba}</p>`;
+  const docs = ['sheet', 'passport', 'bal', 'edu', 'income', 'family', 'pid', 'birth', 'app', ...(four ? ['translator', a.gap === 'yes' && 'explain', 'photos'] : [])]
+    .filter(Boolean).map(k => k === 'edu' ? `${t.d.edu} · ${t.educ[a.country]}` : t.d[k]);
+  const body =
+    sec(t.r_sched, sched) +
+    sec(t.r_cost, table(null, [[t.c_app, fmt(D.ls.app)], [t.c_year, fmt(D.ls.fee)], [t.c_topik, fmt(D.ls.topik)], [t.c_dorm, fmt(490000) + ' ~ ' + fmt(820000)]], [1])) +
+    sec(t.r_bal, `<p><b>${fmt(D.ls.bal)}</b> ${t.bal_valid}<br>${t.balc[a.country]}</p>${a.country !== 'vn' ? `<p class="small">${t.bal_6m}</p>` : ''}`) +
+    sec(t.r_docs, checks(docs) + `<p class="small">${t.docs_note}</p>`) +
+    sec(t.r_bridge, `<p>${fill(t.bridge_r, { kmcu: fmt(D.deg.balKmcu) })}</p>`);
+  return { st, notes, body, actions: [linkBtn(D.url.applyLs, t.btn_apply + ' ↗', true), contact, goBtn('deg', t.btn_to_deg)] };
+}
+
+function degResult(t, a) {
+  const notes = [], contact = linkBtn('#contact', t.btn_contact), g = D.deg;
+  if (a.edu === 'no') return { st: 'no', notes: [t.no_edu], actions: [contact, goBtn('ls', t.btn_to_ls)] };
+  if (a.kor === 'yes') return { st: 'no', notes: [t.no_kor], actions: [contact] };
+  if (a.parent === 'no') return { st: 'no', notes: [t.no_parent], actions: [contact] };
+  let st = 'ok';
+  if (a.edu === 'soon') { st = 'cond'; notes.push(t.soon); }
+  if (a.lang === 'none') { st = 'cond'; notes.push(t.lang_none); }
+  if (['kmcu', 'sejong', 'eng'].includes(a.lang)) notes.push(t.lang_temp);
+  if (a.where === 'ef') notes.push(t.ef);
+  if (a.where === 'kmcu') notes.push(t.kmcu_student);
+  const r = g.rounds.find(x => x[2] >= today);
+  const sched = r
+    ? `<p>${fill(r[1] <= today ? t.deg_open : t.deg_next, { n: r[0], a: fd(r[1]), b: fd(r[2]) })}<br><span class="small">${fill(t.deg_after, { i: fr(r[3], r[4]), r: fd(r[5]) })}</span></p>`
+    : `<p>${t.deg_closed}</p>`;
+  const rate = g.rate[a.lang];
+  const tuition = table([t.th_group, t.th_base, t.th_sch, t.th_pay], g.groups.map(([k, base]) => {
+    const s = Math.round(base * rate);
+    return [t.g[k], fmt(base), rate ? `−${fmt(s)} (${rate * 100}%)` : '–', `<b>${fmt(base - s)}</b>`];
+  }), [1, 2, 3]) + `<p class="small">${t.union_note}</p>`;
+  const abroad = a.where === 'abroad';
+  const docs = (abroad ? ['app', 'edu', 'bal', 'income', 'family', 'pid', 'birth', 'langscore', 'passport']
+    : ['app', 'edu', 'bal', 'family', 'birth', 'langscore', a.where === 'kmcu' && 'lsdocs', 'passport', 'visafee', 'lease'])
+    .filter(Boolean).map(k => k === 'edu' ? `${t.d.edu} · ${t.educ.deg}` : t.d[k]);
+  const bal = a.where === 'kmcu' ? g.balKmcu : g.bal;
+  const body =
+    sec(t.r_sched, sched) +
+    sec(t.r_tuition, tuition) +
+    sec(t.r_bal, `<p><b>${fmt(bal)}</b> · ${t.bal_deg}</p>`) +
+    sec(t.r_docs, checks(docs) + `<p class="small">${t.docs_note}</p>`) +
+    sec(t.r_int, `<p>${t.int_text}</p>`);
+  const actions = [linkBtn(D.url.applyDeg, t.btn_apply + ' ↗', true), contact];
+  if (a.lang === 'none') actions.push(goBtn('ls', t.btn_to_ls));
+  return { st, notes, body, actions };
+}
+
+// ===== 이벤트 =====
+document.addEventListener('click', e => {
+  const go = e.target.closest('[data-go]');
+  if (go) { e.preventDefault(); start(go.dataset.go); return; }
+  if (e.target.closest('[data-home]')) document.body.classList.remove('diag'); // 링크 기본 동작(앵커 이동)은 그대로
+  const lb = e.target.closest('[data-lang]');
+  if (lb) {
+    lang = lb.dataset.lang;
+    try { localStorage.setItem('lang', lang); } catch (_) {}
+    renderStatic();
+    if (isDiag()) start(S.track);
+  }
+});
+renderStatic();
+</script>
+</body>
+</html>
