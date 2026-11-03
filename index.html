@@ -85,6 +85,19 @@ h2{font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.02em;line-h
 .note{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;font-size:14px;color:#3a3a3c}
 .note b{color:var(--ink)}
 @media(max-width:820px){.cards2{grid-template-columns:1fr}}
+/* visa */
+#visa .card{background:var(--gray);border:0}
+#visa .card:hover{transform:none;box-shadow:none}
+.vcode{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.vsteps{list-style:none;counter-reset:s;margin:0 0 20px;padding:0;display:grid;gap:10px}
+.vsteps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;font-size:14.5px}
+.vsteps li::before{content:counter(s);flex:0 0 24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.vpoints{margin:0;padding:16px 0 0 18px;border-top:1px solid #dcdce0;font-size:14px;color:#3a3a3c;display:grid;gap:6px}
+.vcommon{margin-top:22px;border:1px solid var(--line);border-radius:24px;padding:26px;display:grid;grid-template-columns:1fr auto;gap:18px 32px;align-items:start}
+.vcommon h3{font-size:17px;font-weight:800;margin-bottom:10px}
+.vcommon ul{margin:0;padding-left:18px;font-size:14.5px;color:#3a3a3c;display:grid;gap:6px}
+.vcommon .row{flex-direction:column}
+@media(max-width:820px){.vcommon{grid-template-columns:1fr}.vcommon .row{flex-direction:row}}
 /* guide */
 details{border:1px solid var(--line);border-radius:20px;margin-top:12px;background:#fff}
 summary{cursor:pointer;list-style:none;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:17px;font-weight:700}
@@ -156,6 +169,7 @@ body.diag #diag{display:block}body.diag main,body.diag footer{display:none}
   <nav class="links">
     <a href="#" data-go="ls" data-i="nav_ls"></a>
     <a href="#" data-go="deg" data-i="nav_deg"></a>
+    <a href="#visa" data-home data-i="nav_visa"></a>
     <a href="#guide" data-home data-i="nav_guide"></a>
   </nav>
   <div class="right">
@@ -192,14 +206,20 @@ body.diag #diag{display:block}body.diag main,body.diag footer{display:none}
     <div class="note" data-i="bridge"></div>
   </div></section>
 
-  <section class="sec" id="guide"><div class="wrap">
+  <section class="sec" id="visa"><div class="wrap">
+    <div class="center"><div class="eyebrow">Visa</div><h2 data-i="vz_title"></h2><p class="lead" data-i="vz_desc"></p></div>
+    <div class="cards2" id="visaCards"></div>
+    <div class="vcommon" id="visaCommon"></div>
+  </div></section>
+
+  <section class="sec gray" id="guide"><div class="wrap">
     <div class="eyebrow">Guide</div>
     <h2 data-i="guide_title"></h2>
     <p class="lead" data-i="guide_desc"></p>
     <div id="guideBody"></div>
   </div></section>
 
-  <section class="sec gray" id="contact"><div class="wrap split">
+  <section class="sec" id="contact"><div class="wrap split">
     <div>
       <h2 data-i="links_title"></h2>
       <p class="lead" data-i="links_desc"></p>
@@ -308,7 +328,20 @@ const svg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 // ===== 번역 =====
 const T = {
 ko: {
-  nav_ls: '어학과정 진단', nav_deg: '학위과정 진단', nav_guide: '전체 안내', nav_contact: '상담 문의', brand_sub: '유학 가이드', back: '← 처음으로',
+  nav_ls: '어학과정 진단', nav_deg: '학위과정 진단', nav_visa: '비자 안내', nav_guide: '전체 안내', nav_contact: '상담 문의', brand_sub: '유학 가이드', back: '← 처음으로',
+  vz_title: '비자, 미리 알아두세요.',
+  vz_desc: '과정에 따라 받는 비자가 다릅니다. 합격 후 학교가 입학 서류를 발급하면, 본인이 대한민국 대사관(영사관)에 비자를 신청합니다.',
+  vz_ls: ['D-4-1', '어학연수 · 한국어학당', ['합격 · 등록 후 학교가 표준입학허가서 발급', '우즈베키스탄·베트남·중국·몽골은 학교가 사증발급인정서를 먼저 신청', '본국 대한민국 대사관에 비자 신청', '비자 발급 후 입국 · 오리엔테이션'], ['잔고증명 8,000,000원 이상', '수료 후 D-2로 체류자격을 바꿔 본과 진학 가능', '아르바이트는 입국 6개월 뒤부터, 출입국 허가를 받아야 가능']],
+  vz_deg: ['D-2-1', '전문학사 유학 · 학위과정', ['합격 · 등록 후 학교가 표준입학허가서 발급', '해외: 본국 대한민국 대사관에 비자 신청', '국내(D-4 등): 출입국·외국인관서에서 체류자격 변경', '입국 또는 변경 완료 후 입학'], ['잔고증명 16,000,000원 이상 (본교 학당 출신 8,000,000원)', '국내에서 변경하면 비자 변경·심사 수수료 135,000원', '아르바이트는 출입국 허가를 받아야 가능, 허용 시간은 한국어 능력과 학업 상황에 따라 다름']],
+  vz_common_title: '입국 후 꼭 할 일',
+  vz_common: ['입국일부터 90일 이내 외국인등록 (출입국·외국인관서)', '체류기간이 끝나기 전에 체류기간 연장 신청', '출석이 부족하면 체류기간 연장이 어려울 수 있으니 출석 관리'],
+  vz_note: '비자 기준은 법무부 지침에 따라 바뀔 수 있습니다. 최신 내용은 하이코리아와 비자포털에서 확인하세요.',
+  r_visa: '비자',
+  rv_ls: '<b>D-4-1 (어학연수)</b> 비자를 받습니다. 합격 후 학교가 표준입학허가서를 발급하면 본국 대한민국 대사관에 비자를 신청하세요.',
+  rv_abroad: '<b>D-2-1 (전문학사 유학)</b> 비자를 받습니다. 합격·등록 후 학교가 표준입학허가서를 발급하면 본국 대한민국 대사관에 비자를 신청하세요.',
+  rv_dom: '<b>D-2-1</b>로 체류자격을 변경합니다. 출입국·외국인관서에 변경 신청을 하며, 수수료 135,000원이 듭니다.',
+  rv_ef: '지금 비자(E·F 계열)로 학업이 가능한지, D-2로 바꿔야 하는지 유학생지원팀에 먼저 확인하세요.',
+  rv_after: '입국 후 90일 이내 외국인등록을 해야 합니다.',
   hero_title: '계명문화대학교에서<br>한국 유학을 시작하세요.',
   hero_desc: '한국어학당과 학위과정, 두 가지 입학 경로를 안내합니다. 몇 가지 질문에 답하면 지원 자격과 필요한 서류를 바로 확인할 수 있습니다.',
   cta_ls: '어학과정 진단', cta_deg: '학위과정 진단',
@@ -397,7 +430,20 @@ ko: {
   footer: '2026학년도 한국어학당 · 2027학년도 3월 학기 외국인 유학생 모집요강 기준. 일정과 금액은 학교 사정에 따라 바뀔 수 있으니 지원 전에 공식 모집요강을 확인하세요. © 계명문화대학교 국제처',
 },
 en: {
-  nav_ls: 'Language Course', nav_deg: 'Degree Program', nav_guide: 'Full Guide', nav_contact: 'Contact', brand_sub: 'Study Guide', back: '← Home',
+  nav_ls: 'Language Course', nav_deg: 'Degree Program', nav_visa: 'Visa', nav_guide: 'Full Guide', nav_contact: 'Contact', brand_sub: 'Study Guide', back: '← Home',
+  vz_title: 'Know your visa before you go.',
+  vz_desc: 'Each program uses a different visa. Once you are admitted, the school issues your admission documents and you apply for the visa at a Korean embassy or consulate.',
+  vz_ls: ['D-4-1', 'Language training · Korean Language Institute', ['After admission and payment, the school issues a Certificate of Admission', 'For Uzbekistan, Vietnam, China and Mongolia, the school first applies for a Certificate of Visa Issuance', 'Apply for the visa at the Korean embassy in your country', 'Arrive in Korea · orientation'], ['Bank balance of KRW 8,000,000 or more', 'After completion, change to D-2 and move on to a degree', 'Part-time work only after 6 months in Korea, with immigration permission']],
+  vz_deg: ['D-2-1', 'Associate degree study · Degree Program', ['After admission and registration, the school issues a Certificate of Admission', 'From abroad: apply for the visa at the Korean embassy in your country', 'In Korea (e.g. D-4): change your status at the immigration office', 'Start classes after arrival or status change'], ['Bank balance of KRW 16,000,000 or more (KRW 8,000,000 for KMCU language students)', 'Changing status in Korea costs KRW 135,000', 'Part-time work requires immigration permission; allowed hours depend on Korean level and studies']],
+  vz_common_title: 'After you arrive',
+  vz_common: ['Register as a foreign resident within 90 days of arrival (immigration office)', 'Apply to extend your stay before it expires', 'Low attendance can make extensions difficult, so keep up your attendance'],
+  vz_note: 'Visa rules follow Ministry of Justice guidelines and can change. Check HiKorea and the Korea Visa Portal for the latest information.',
+  r_visa: 'Visa',
+  rv_ls: 'You will get a <b>D-4-1 (language training)</b> visa. Once the school issues your Certificate of Admission, apply at the Korean embassy in your country.',
+  rv_abroad: 'You will get a <b>D-2-1 (associate degree study)</b> visa. Once the school issues your Certificate of Admission, apply at the Korean embassy in your country.',
+  rv_dom: 'You will change your status to <b>D-2-1</b> at the immigration office. The fee is KRW 135,000.',
+  rv_ef: 'Check with the International Student Support Team whether you can study on your current E/F visa or need to change to D-2.',
+  rv_after: 'Register as a foreign resident within 90 days of arrival.',
   hero_title: 'Start your study<br>in Korea at KMCU.',
   hero_desc: 'Two ways in: the Korean Language Institute and degree programs. Answer a few questions to see whether you are eligible and which documents you need.',
   cta_ls: 'Language Course', cta_deg: 'Degree Program',
@@ -486,7 +532,20 @@ en: {
   footer: 'Based on the 2026 Korean Language Institute and March 2027 international student admission guides. Dates and fees may change; please check the official guide before you apply. © KMCU Office of International Affairs',
 },
 es: {
-  nav_ls: 'Curso de coreano', nav_deg: 'Carrera', nav_guide: 'Guía completa', nav_contact: 'Contacto', brand_sub: 'Guía de estudios', back: '← Inicio',
+  nav_ls: 'Curso de coreano', nav_deg: 'Carrera', nav_visa: 'Visa', nav_guide: 'Guía completa', nav_contact: 'Contacto', brand_sub: 'Guía de estudios', back: '← Inicio',
+  vz_title: 'Conoce tu visa antes de viajar.',
+  vz_desc: 'Cada programa usa una visa distinta. Tras la admisión, la universidad emite tus documentos y tú solicitas la visa en la embajada o consulado de Corea.',
+  vz_ls: ['D-4-1', 'Formación lingüística · Instituto de Coreano', ['Tras la admisión y el pago, la universidad emite la carta de admisión', 'Para Uzbekistán, Vietnam, China y Mongolia, la universidad solicita primero el Certificado de Emisión de Visa', 'Solicita la visa en la embajada de Corea en tu país', 'Llegada a Corea · orientación'], ['Saldo bancario de KRW 8.000.000 o más', 'Al terminar, cambias a D-2 y pasas a una carrera', 'Trabajo a tiempo parcial solo tras 6 meses en Corea y con permiso de inmigración']],
+  vz_deg: ['D-2-1', 'Estudios de técnico superior · Carrera', ['Tras la admisión e inscripción, la universidad emite la carta de admisión', 'Desde el extranjero: solicita la visa en la embajada de Corea en tu país', 'En Corea (p. ej. D-4): cambia tu estatus en la oficina de inmigración', 'Empiezas las clases tras la llegada o el cambio de estatus'], ['Saldo bancario de KRW 16.000.000 o más (KRW 8.000.000 si estudiaste en nuestro instituto)', 'El cambio de estatus en Corea cuesta KRW 135.000', 'El trabajo a tiempo parcial requiere permiso; las horas dependen del nivel de coreano y de los estudios']],
+  vz_common_title: 'Al llegar a Corea',
+  vz_common: ['Regístrate como residente extranjero en los 90 días siguientes a tu llegada (oficina de inmigración)', 'Solicita la prórroga de estancia antes de que venza', 'Una asistencia baja puede dificultar la prórroga: cuida tu asistencia'],
+  vz_note: 'Las normas de visa siguen las directrices del Ministerio de Justicia y pueden cambiar. Consulta HiKorea y el Portal de Visas de Corea.',
+  r_visa: 'Visa',
+  rv_ls: 'Obtendrás una visa <b>D-4-1 (formación lingüística)</b>. Cuando la universidad emita tu carta de admisión, solicítala en la embajada de Corea en tu país.',
+  rv_abroad: 'Obtendrás una visa <b>D-2-1 (estudios de técnico superior)</b>. Cuando la universidad emita tu carta de admisión, solicítala en la embajada de Corea en tu país.',
+  rv_dom: 'Cambiarás tu estatus a <b>D-2-1</b> en la oficina de inmigración. La tasa es de KRW 135.000.',
+  rv_ef: 'Consulta al equipo de apoyo si puedes estudiar con tu visa E/F actual o si debes cambiar a D-2.',
+  rv_after: 'Regístrate como residente extranjero en los 90 días siguientes a tu llegada.',
   hero_title: 'Empieza a estudiar<br>en Corea en KMCU.',
   hero_desc: 'Dos vías de ingreso: el Instituto de Lengua Coreana y las carreras. Responde unas preguntas y conoce tus requisitos y los documentos que necesitas.',
   cta_ls: 'Curso de coreano', cta_deg: 'Carrera',
@@ -610,6 +669,13 @@ function renderStatic() {
   $('#tracks').innerHTML =
     card('ls', 'ls.jpg', [['k_visa', 'D-4-1'], ['k_req', t.v_req_ls], ['k_class', t.v_class_ls], ['k_cost', t.v_cost_ls], ['k_bal', t.v_bal_ls]]) +
     card('deg', 'deg.jpg', [['k_visa', 'D-2-1'], ['k_req', t.v_req_deg], ['k_class', t.v_class_deg], ['k_cost', t.v_cost_deg], ['k_bal', t.v_bal_deg]]);
+  const vcard = ([code, sub, steps, points]) => `<article class="card"><div class="in">
+    <div class="eyebrow">${sub}</div><div class="vcode" style="margin:10px 0 22px">${code}</div>
+    <ol class="vsteps">${steps.map(s => `<li><span>${s}</span></li>`).join('')}</ol>
+    <ul class="vpoints">${points.map(s => `<li>${s}</li>`).join('')}</ul></div></article>`;
+  $('#visaCards').innerHTML = vcard(t.vz_ls) + vcard(t.vz_deg);
+  $('#visaCommon').innerHTML = `<div><h3>${t.vz_common_title}</h3>${ul(t.vz_common)}<p class="small" style="margin:14px 0 0">${t.vz_note}</p></div>
+    <div class="row"><a class="pill line sm" href="https://www.hikorea.go.kr" target="_blank" rel="noopener">HiKorea ↗</a><a class="pill line sm" href="https://www.visa.go.kr" target="_blank" rel="noopener">Visa Portal ↗</a></div>`;
   renderGuide();
   $('#links').innerHTML = Object.entries(t.l).map(([k, [a, b]], i) => `<a class="banner ${i < 2 ? 'primary' : ''}" href="${D.url[k]}" target="_blank" rel="noopener"><span>${a}<small>${b}</small></span><span>↗</span></a>`).join('');
   $('#contacts').innerHTML = `
@@ -725,6 +791,7 @@ function lsResult(t, a) {
   const docs = ['sheet', 'passport', 'bal', 'edu', 'income', 'family', 'pid', 'birth', 'app', ...(four ? ['translator', a.gap === 'yes' && 'explain', 'photos'] : [])]
     .filter(Boolean).map(k => k === 'edu' ? `${t.d.edu} · ${t.educ[a.country]}` : t.d[k]);
   const body =
+    sec(t.r_visa, `<p>${t.rv_ls}</p><p class="small">${t.rv_after}</p>`) +
     sec(t.r_sched, sched) +
     sec(t.r_cost, table(null, [[t.c_app, fmt(D.ls.app)], [t.c_year, fmt(D.ls.fee)], [t.c_topik, fmt(D.ls.topik)], [t.c_dorm, fmt(490000) + ' ~ ' + fmt(820000)]], [1])) +
     sec(t.r_bal, `<p><b>${fmt(D.ls.bal)}</b> ${t.bal_valid}<br>${t.balc[a.country]}</p>${a.country !== 'vn' ? `<p class="small">${t.bal_6m}</p>` : ''}`) +
@@ -759,6 +826,7 @@ function degResult(t, a) {
     .filter(Boolean).map(k => k === 'edu' ? `${t.d.edu} · ${t.educ.deg}` : t.d[k]);
   const bal = a.where === 'kmcu' ? g.balKmcu : g.bal;
   const body =
+    sec(t.r_visa, `<p>${a.where === 'ef' ? t.rv_ef : abroad ? t.rv_abroad : t.rv_dom}</p>${abroad ? `<p class="small">${t.rv_after}</p>` : ''}`) +
     sec(t.r_sched, sched) +
     sec(t.r_tuition, tuition) +
     sec(t.r_bal, `<p><b>${fmt(bal)}</b> · ${t.bal_deg}</p>`) +
@@ -794,7 +862,7 @@ const io = 'IntersectionObserver' in window && new IntersectionObserver(es => es
 }), { rootMargin: '0px 0px -8% 0px' });
 function reveal() {
   if (!io) return;
-  $$('main .split > *, main .center, main .card, main .note, #guide h2, #guide .lead, #guideBody details').forEach(el => {
+  $$('main .split > *, main .center, main .card, main .note, main .vcommon, #guide h2, #guide .lead, #guideBody details').forEach(el => {
     if (el.dataset.rv) return;
     el.dataset.rv = 1;
     const sibs = [...el.parentElement.children].filter(c => c.matches('.split > *, .card'));
