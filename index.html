@@ -283,7 +283,8 @@ const D = {
   },
 };
 const FOUR = ['uz', 'vn', 'cn', 'mn']; // 사증발급인정서 대상 국가
-const MORE = ['mx', 'bd', 'np', 'kz', 'kg', 'tj', 'id', 'ph', 'mm', 'lk', 'jp', 'ru']; // '그 밖의 국가'를 누르면 나오는 목록 (국기: assets/img/flags)
+const TOP = ['mx', 'vn', 'mn', 'uz', 'kz', 'id']; // 국적 질문에 처음부터 보이는 국가
+const MORE = ['cn', 'bd', 'np', 'kg', 'tj', 'ph', 'mm', 'lk', 'jp', 'ru']; // '그 밖의 국가'를 누르면 나오는 목록 (국기: assets/img/flags)
 
 // [계열, [학과...]] — 각 항목 [ko, en, es]
 const DEPTS = [
@@ -778,10 +779,11 @@ function step() {
     // 국가명은 브라우저 내장 번역(Intl), 국기는 assets/img/flags/<코드>.png
     const name = new Intl.DisplayNames([LOC[lang]], { type: 'region' });
     const flag = c => `<img class="flag" src="assets/img/flags/${c}.png" alt="">${name.of(c.toUpperCase())}`;
-    FOUR.forEach(c => btn(flag(c), () => pick(c, flag(c))));
+    const val = c => FOUR.includes(c) ? c : 'other'; // 결과 안내는 사증발급인정서 4개국만 따로
+    TOP.forEach(c => btn(flag(c), () => pick(val(c), flag(c))));
     const more = btn(`${opts.other} <span class="caret">▾</span>`, () => {
       more.remove();
-      MORE.forEach(c => btn(flag(c), () => pick('other', flag(c))));
+      MORE.forEach(c => btn(flag(c), () => pick(val(c), flag(c))));
       btn(L().c_none, () => pick('other', L().c_none));
     });
   } else for (const [v, label] of Object.entries(opts)) btn(label, () => pick(v, label));
