@@ -149,6 +149,9 @@ body.diag #diag{display:block}body.diag main,body.diag footer{display:none}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 0 48px}
 .opts button{background:#fff;border:1px solid #d2d2d7;border-radius:980px;padding:13px 16px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .2s}
 .opts button:hover{border-color:var(--ink)}
+.opts button{display:flex;align-items:center;justify-content:center;gap:8px}
+.flag{width:22px;height:15px;object-fit:cover;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.1)}
+.caret{font-size:11px;color:var(--mute,#86868b)}
 @media(max-width:560px){.opts{grid-template-columns:1fr;margin-left:0}}
 @keyframes up{from{opacity:0;transform:translateY(16px)}}
 /* 움직임: 첫 화면은 로드 때, 나머지는 스크롤해서 보일 때 아래에서 떠오른다 (UK 가이드와 같은 곡선) */
@@ -280,6 +283,7 @@ const D = {
   },
 };
 const FOUR = ['uz', 'vn', 'cn', 'mn']; // 사증발급인정서 대상 국가
+const MORE = ['mx', 'bd', 'np', 'kz', 'kg', 'tj', 'id', 'ph', 'mm', 'lk', 'jp', 'ru']; // '그 밖의 국가'를 누르면 나오는 목록 (국기: assets/img/flags)
 
 // [계열, [학과...]] — 각 항목 [ko, en, es]
 const DEPTS = [
@@ -381,6 +385,7 @@ ko: {
   r_ok: '지원 가능합니다', r_cond: '조건을 갖추면 지원할 수 있습니다', r_no: '현재 조건으로는 지원이 어렵습니다',
   r_notes: '확인할 점', r_sched: '다음 일정', r_cost: '예상 비용', r_bal: '잔고증명', r_docs: '준비할 서류', r_tuition: '첫 학기 등록금 (장학 적용)', r_int: '면접', r_bridge: '그다음 단계',
   no_edu: '고등학교 졸업 이상 학력이 필요합니다.',
+  c_none: '목록에 없는 국가',
   no_kor: '한국 국적(이중국적 포함)이 있으면 외국인 전형으로 지원할 수 없습니다.',
   no_parent: '학위과정 외국인 전형은 본인과 부모 모두 외국 국적이어야 합니다.',
   soon: '입학 전까지 졸업해야 합니다. 졸업(예정)증명서를 준비하세요.',
@@ -485,6 +490,7 @@ en: {
   r_ok: 'You can apply', r_cond: 'You can apply once you meet a condition', r_no: 'You can\'t apply with your current situation',
   r_notes: 'Check these', r_sched: 'Next dates', r_cost: 'Estimated costs', r_bal: 'Bank balance', r_docs: 'Documents to prepare', r_tuition: 'First-semester tuition (with scholarship)', r_int: 'Interview', r_bridge: 'What comes next',
   no_edu: 'You need at least a high school diploma.',
+  c_none: 'Another country (not listed)',
   no_kor: 'Applicants with Korean nationality (including dual) can\'t apply through the international track.',
   no_parent: 'For the degree track, you and both parents must be foreign nationals.',
   soon: 'You must graduate before entry. Prepare your (expected) graduation certificate.',
@@ -589,6 +595,7 @@ es: {
   r_ok: 'Puedes postular', r_cond: 'Puedes postular si cumples una condición', r_no: 'Con tu situación actual no puedes postular',
   r_notes: 'Revisa esto', r_sched: 'Próximas fechas', r_cost: 'Costos estimados', r_bal: 'Saldo bancario', r_docs: 'Documentos que necesitas', r_tuition: 'Matrícula del primer semestre (con beca)', r_int: 'Entrevista', r_bridge: 'Siguiente paso',
   no_edu: 'Necesitas como mínimo el bachillerato terminado.',
+  c_none: 'Otro país (no está en la lista)',
   no_kor: 'Quien tiene nacionalidad coreana (incluida doble) no puede postular por la vía de extranjeros.',
   no_parent: 'Para la carrera, tú y tus dos padres deben ser extranjeros.',
   soon: 'Debes graduarte antes del ingreso. Prepara tu certificado de graduación (o de graduación prevista).',
@@ -765,11 +772,19 @@ function step() {
   const [q, opts] = L().q[id];
   say(fill(q, { bal: fmt(D.ls.bal) }));
   const box = document.createElement('div'); box.className = 'opts';
-  for (const [v, label] of Object.entries(opts)) {
-    const b = document.createElement('button'); b.textContent = label;
-    b.onclick = () => { box.remove(); say(label, true); S.a[id] = v; setTimeout(step, 350); };
-    box.append(b);
-  }
+  const pick = (v, label) => { box.remove(); say(label, true); S.a[id] = v; setTimeout(step, 350); };
+  const btn = (label, fn) => { const b = document.createElement('button'); b.innerHTML = label; b.onclick = fn; box.append(b); return b; };
+  if (id === 'country') {
+    // 국가명은 브라우저 내장 번역(Intl), 국기는 assets/img/flags/<코드>.png
+    const name = new Intl.DisplayNames([LOC[lang]], { type: 'region' });
+    const flag = c => `<img class="flag" src="assets/img/flags/${c}.png" alt="">${name.of(c.toUpperCase())}`;
+    FOUR.forEach(c => btn(flag(c), () => pick(c, flag(c))));
+    const more = btn(`${opts.other} <span class="caret">▾</span>`, () => {
+      more.remove();
+      MORE.forEach(c => btn(flag(c), () => pick('other', flag(c))));
+      btn(L().c_none, () => pick('other', L().c_none));
+    });
+  } else for (const [v, label] of Object.entries(opts)) btn(label, () => pick(v, label));
   chat().append(box);
   box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
