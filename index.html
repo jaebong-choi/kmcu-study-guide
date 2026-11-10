@@ -13,6 +13,7 @@
 :root{--ink:#1d1d1f;--sub:#6e6e73;--mute:#86868b;--line:#e5e5e7;--gray:#f5f5f7;--red:#e0312f;--red-d:#c4221f;--blue:#00449e}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html:lang(zh) body{font-family:"Pretendard Variable",Pretendard,"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif}
 body{margin:0;background:#fff;color:var(--ink);font:16px/1.6 "Pretendard Variable",Pretendard,"Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
 p,li,dd,td{text-wrap:pretty}
 h1,h2,h3,h4{text-wrap:balance;margin:0}
@@ -36,9 +37,7 @@ button{font:inherit}
 .links{display:flex;gap:26px;margin:0 auto;font-size:13px}
 .links a{text-decoration:none;color:var(--sub)}.links a:hover{color:var(--ink)}
 .right{display:flex;gap:8px;align-items:center;margin-left:auto}
-.seg{display:inline-flex;border:1px solid rgba(0,0,0,.18);border-radius:999px;overflow:hidden}
-.seg button{border:0;background:none;color:var(--sub);font-size:11.5px;font-weight:700;padding:5px 10px;cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.langsel{appearance:none;-webkit-appearance:none;border:1px solid rgba(0,0,0,.18);border-radius:999px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2386868b' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center/9px;color:var(--ink);font:inherit;font-size:12px;font-weight:700;padding:5px 26px 5px 12px;cursor:pointer}
 .nav .pill{padding:6px 13px;font-size:12px}
 @media(max-width:860px){.links{display:none}}
 @media(max-width:520px){.brand span,.nav .pill{display:none}}
@@ -181,7 +180,7 @@ body.diag #diag{display:block}body.diag main,body.diag footer{display:none}
     <a href="#guide" data-home data-i="nav_guide"></a>
   </nav>
   <div class="right">
-    <div class="seg" role="group" aria-label="Language"><button data-lang="ko">KO</button><button data-lang="en">EN</button><button data-lang="es">ES</button></div>
+    <select class="langsel" id="langSel" aria-label="Language"><option value="ko">한국어</option><option value="en">English</option><option value="es">Español</option><option value="vi">Tiếng Việt</option><option value="zh">简体中文</option><option value="ru">Русский</option></select>
     <a class="pill line" href="#contact" data-home data-i="nav_contact"></a>
   </div>
 </div></header>
@@ -280,52 +279,53 @@ const D = {
     applyDeg: 'https://www.kmcu.ac.kr/global/index.php?pCode=MN0000097',
     lsInfo: 'https://www.kmcu.ac.kr/global/index.php?pCode=MN0000059',
     degInfo: 'https://www.kmcu.ac.kr/global/index.php?pCode=MN0000036',
+    stats: '', // 이용 통계: apps-script.gs 를 배포하고 나온 /exec 주소. 비워 두면 기록하지 않는다
   },
 };
 const FOUR = ['uz', 'vn', 'cn', 'mn']; // 사증발급인정서 대상 국가
 const TOP = ['mx', 'vn', 'mn', 'uz', 'kz', 'id']; // 국적 질문에 처음부터 보이는 국가
 const MORE = ['cn', 'bd', 'np', 'kg', 'tj', 'ph', 'mm', 'lk', 'jp', 'ru']; // '그 밖의 국가'를 누르면 나오는 목록 (국기: assets/img/flags)
 
-// [계열, [학과...]] — 각 항목 [ko, en, es]
+// [계열, [학과...]] — 각 항목 [ko, en, es, vi, zh, ru]
 const DEPTS = [
-  [['간호·보건', 'Nursing & Health', 'Enfermería y Salud'], [
-    ['간호학과 (4년제)', 'Nursing (4-year)', 'Enfermería (4 años)'],
-    ['보건행정과', 'Health Administration', 'Administración Sanitaria'],
-    ['언어치료과', 'Speech-Language Therapy', 'Terapia del Lenguaje'],
-    ['응급구조과', 'Emergency Medical Technology', 'Técnico en Emergencias Médicas'],
-    ['의료재활과', 'Medical Rehabilitation', 'Rehabilitación Médica'],
-    ['작업치료과', 'Occupational Therapy', 'Terapia Ocupacional'],
-    ['치위생과', 'Dental Hygiene', 'Higiene Dental']]],
-  [['AI융합·디자인·콘텐츠', 'AI, Design & Content', 'IA, Diseño y Contenidos'], [
-    ['AI디자인학부 (산업·시각·타투디자인)', 'School of AI Design (Industrial · Visual · Tattoo)', 'Escuela de Diseño con IA (Industrial · Visual · Tatuaje)'],
-    ['AI융합자율전공과', 'AI Convergence Open Major', 'Carrera Abierta de Convergencia IA'],
-    ['웹툰·애니메이션학부', 'School of Webtoon & Animation', 'Escuela de Webtoon y Animación'],
-    ['패션디자인·쇼핑몰과', 'Fashion Design & Online Retail', 'Diseño de Moda y Comercio Online']]],
-  [['반려동물', 'Companion Animals', 'Animales de Compañía'], [
-    ['반려동물보건과', 'Companion Animal Health', 'Salud de Animales de Compañía'],
-    ['펫토탈케어과', 'Pet Total Care', 'Cuidado Integral de Mascotas']]],
-  [['뷰티', 'Beauty', 'Belleza'], [
-    ['뷰티아트학부 (메이크업·네일)', 'School of Beauty Art (Makeup · Nail)', 'Escuela de Arte de Belleza (Maquillaje · Uñas)'],
-    ['뷰티스킨테라피과', 'Beauty Skin Therapy', 'Terapia Estética de la Piel'],
-    ['헤어디자인과', 'Hair Design', 'Diseño de Cabello']]],
-  [['스마트공학', 'Smart Engineering', 'Ingeniería Inteligente'], [
-    ['건축인테리어학부', 'School of Architecture & Interior', 'Escuela de Arquitectura e Interiorismo'],
-    ['기계과', 'Mechanical Engineering', 'Ingeniería Mecánica'],
-    ['소방환경안전과', 'Fire & Environmental Safety', 'Seguridad contra Incendios y Ambiental'],
-    ['스마트그린융합학부 (전기·플라워가드닝)', 'School of Smart Green Convergence (Electrical · Flower & Gardening)', 'Escuela de Convergencia Verde (Electricidad · Flores y Jardinería)']]],
-  [['식품·외식·조리', 'Food & Culinary', 'Alimentación y Cocina'], [
-    ['식품영양과', 'Food & Nutrition', 'Alimentación y Nutrición'],
-    ['제과제빵과', 'Bakery & Pastry', 'Panadería y Pastelería'],
-    ['호텔외식조리학부', 'School of Hotel Culinary Arts', 'Escuela de Cocina Hotelera']]],
-  [['음악·스포츠', 'Music & Sports', 'Música y Deportes'], [
-    ['공연음악과 (실기고사)', 'Performing Music (audition)', 'Música Escénica (prueba práctica)'],
-    ['생활체육학부', 'School of Lifestyle Sports', 'Escuela de Deporte y Vida Activa']]],
-  [['휴먼·복지서비스', 'Human & Welfare Services', 'Servicios Humanos y Bienestar'], [
-    ['경찰행정과', 'Police Administration', 'Administración Policial'],
-    ['사회복지상담과', 'Social Welfare & Counseling', 'Trabajo Social y Orientación'],
-    ['유아교육과 (3년제)', 'Early Childhood Education (3-year)', 'Educación Infantil (3 años)'],
-    ['해외서비스호텔항공학부 (호텔관광·항공보안·해외서비스경영)', 'School of Global Service, Hotel & Aviation', 'Escuela de Servicios Globales, Hotelería y Aviación'],
-    ['AI경영학부 (AI회계정보)', 'School of AI Business (AI Accounting)', 'Escuela de Negocios con IA (Contabilidad con IA)']]],
+  [['간호·보건', 'Nursing & Health', 'Enfermería y Salud', 'Điều dưỡng · Y tế', '护理 · 保健', 'Сестринское дело и здоровье'], [
+    ['간호학과 (4년제)', 'Nursing (4-year)', 'Enfermería (4 años)', 'Điều dưỡng (4 năm)', '护理学（4 年制）', 'Сестринское дело (4 года)'],
+    ['보건행정과', 'Health Administration', 'Administración Sanitaria', 'Hành chính y tế', '保健行政', 'Управление здравоохранением'],
+    ['언어치료과', 'Speech-Language Therapy', 'Terapia del Lenguaje', 'Trị liệu ngôn ngữ', '语言治疗', 'Логопедия'],
+    ['응급구조과', 'Emergency Medical Technology', 'Técnico en Emergencias Médicas', 'Cấp cứu y tế', '急救救援', 'Скорая медицинская помощь'],
+    ['의료재활과', 'Medical Rehabilitation', 'Rehabilitación Médica', 'Phục hồi chức năng y tế', '医疗康复', 'Медицинская реабилитация'],
+    ['작업치료과', 'Occupational Therapy', 'Terapia Ocupacional', 'Hoạt động trị liệu', '作业治疗', 'Эрготерапия'],
+    ['치위생과', 'Dental Hygiene', 'Higiene Dental', 'Vệ sinh răng miệng', '牙科卫生', 'Гигиена полости рта']]],
+  [['AI융합·디자인·콘텐츠', 'AI, Design & Content', 'IA, Diseño y Contenidos', 'AI · Thiết kế · Nội dung', 'AI 融合 · 设计 · 内容', 'ИИ, дизайн и контент'], [
+    ['AI디자인학부 (산업·시각·타투디자인)', 'School of AI Design (Industrial · Visual · Tattoo)', 'Escuela de Diseño con IA (Industrial · Visual · Tatuaje)', 'Khoa Thiết kế AI (công nghiệp · thị giác · hình xăm)', 'AI 设计学部（工业 · 视觉 · 纹身设计）', 'Факультет ИИ-дизайна (промышленный · визуальный · тату)'],
+    ['AI융합자율전공과', 'AI Convergence Open Major', 'Carrera Abierta de Convergencia IA', 'Ngành tự chọn hội tụ AI', 'AI 融合自主专业', 'Открытая специальность «ИИ-конвергенция»'],
+    ['웹툰·애니메이션학부', 'School of Webtoon & Animation', 'Escuela de Webtoon y Animación', 'Khoa Webtoon · Hoạt hình', '网络漫画 · 动画学部', 'Факультет вебтуна и анимации'],
+    ['패션디자인·쇼핑몰과', 'Fashion Design & Online Retail', 'Diseño de Moda y Comercio Online', 'Thiết kế thời trang · Bán hàng trực tuyến', '服装设计 · 网店', 'Дизайн одежды и онлайн-торговля']]],
+  [['반려동물', 'Companion Animals', 'Animales de Compañía', 'Thú cưng', '宠物', 'Домашние животные'], [
+    ['반려동물보건과', 'Companion Animal Health', 'Salud de Animales de Compañía', 'Chăm sóc sức khỏe thú cưng', '宠物保健', 'Здоровье домашних животных'],
+    ['펫토탈케어과', 'Pet Total Care', 'Cuidado Integral de Mascotas', 'Chăm sóc thú cưng toàn diện', '宠物综合护理', 'Комплексный уход за питомцами']]],
+  [['뷰티', 'Beauty', 'Belleza', 'Làm đẹp', '美容', 'Красота'], [
+    ['뷰티아트학부 (메이크업·네일)', 'School of Beauty Art (Makeup · Nail)', 'Escuela de Arte de Belleza (Maquillaje · Uñas)', 'Khoa Nghệ thuật làm đẹp (trang điểm · nail)', '美容艺术学部（化妆 · 美甲）', 'Факультет бьюти-искусства (макияж · ногти)'],
+    ['뷰티스킨테라피과', 'Beauty Skin Therapy', 'Terapia Estética de la Piel', 'Chăm sóc da thẩm mỹ', '美容皮肤护理', 'Эстетическая терапия кожи'],
+    ['헤어디자인과', 'Hair Design', 'Diseño de Cabello', 'Thiết kế tóc', '美发设计', 'Дизайн причёсок']]],
+  [['스마트공학', 'Smart Engineering', 'Ingeniería Inteligente', 'Kỹ thuật thông minh', '智能工程', 'Умная инженерия'], [
+    ['건축인테리어학부', 'School of Architecture & Interior', 'Escuela de Arquitectura e Interiorismo', 'Khoa Kiến trúc · Nội thất', '建筑室内学部', 'Факультет архитектуры и интерьера'],
+    ['기계과', 'Mechanical Engineering', 'Ingeniería Mecánica', 'Cơ khí', '机械', 'Машиностроение'],
+    ['소방환경안전과', 'Fire & Environmental Safety', 'Seguridad contra Incendios y Ambiental', 'An toàn phòng cháy · môi trường', '消防环境安全', 'Пожарная и экологическая безопасность'],
+    ['스마트그린융합학부 (전기·플라워가드닝)', 'School of Smart Green Convergence (Electrical · Flower & Gardening)', 'Escuela de Convergencia Verde (Electricidad · Flores y Jardinería)', 'Khoa Hội tụ xanh thông minh (điện · hoa và làm vườn)', '智能绿色融合学部（电气 · 花艺园艺）', 'Факультет умной зелёной конвергенции (электрика · флористика и садоводство)']]],
+  [['식품·외식·조리', 'Food & Culinary', 'Alimentación y Cocina', 'Thực phẩm · Ẩm thực', '食品 · 餐饮 · 烹饪', 'Питание и кулинария'], [
+    ['식품영양과', 'Food & Nutrition', 'Alimentación y Nutrición', 'Thực phẩm · Dinh dưỡng', '食品营养', 'Питание и диетология'],
+    ['제과제빵과', 'Bakery & Pastry', 'Panadería y Pastelería', 'Làm bánh', '烘焙', 'Хлебопечение и кондитерское дело'],
+    ['호텔외식조리학부', 'School of Hotel Culinary Arts', 'Escuela de Cocina Hotelera', 'Khoa Nấu ăn khách sạn', '酒店餐饮烹饪学部', 'Факультет гостиничной кулинарии']]],
+  [['음악·스포츠', 'Music & Sports', 'Música y Deportes', 'Âm nhạc · Thể thao', '音乐 · 体育', 'Музыка и спорт'], [
+    ['공연음악과 (실기고사)', 'Performing Music (audition)', 'Música Escénica (prueba práctica)', 'Âm nhạc biểu diễn (thi thực hành)', '表演音乐（实技考试）', 'Исполнительская музыка (прослушивание)'],
+    ['생활체육학부', 'School of Lifestyle Sports', 'Escuela de Deporte y Vida Activa', 'Khoa Thể thao đời sống', '生活体育学部', 'Факультет массового спорта']]],
+  [['휴먼·복지서비스', 'Human & Welfare Services', 'Servicios Humanos y Bienestar', 'Dịch vụ con người · Phúc lợi', '人文 · 福利服务', 'Социальные услуги и благополучие'], [
+    ['경찰행정과', 'Police Administration', 'Administración Policial', 'Hành chính cảnh sát', '警察行政', 'Полицейское администрирование'],
+    ['사회복지상담과', 'Social Welfare & Counseling', 'Trabajo Social y Orientación', 'Phúc lợi xã hội · Tư vấn', '社会福利咨询', 'Социальная работа и консультирование'],
+    ['유아교육과 (3년제)', 'Early Childhood Education (3-year)', 'Educación Infantil (3 años)', 'Giáo dục mầm non (3 năm)', '幼儿教育（3 年制）', 'Дошкольное образование (3 года)'],
+    ['해외서비스호텔항공학부 (호텔관광·항공보안·해외서비스경영)', 'School of Global Service, Hotel & Aviation', 'Escuela de Servicios Globales, Hotelería y Aviación', 'Khoa Dịch vụ quốc tế · Khách sạn · Hàng không', '海外服务酒店航空学部（酒店旅游 · 航空安保 · 海外服务管理）', 'Факультет международного сервиса, гостиничного дела и авиации'],
+    ['AI경영학부 (AI회계정보)', 'School of AI Business (AI Accounting)', 'Escuela de Negocios con IA (Contabilidad con IA)', 'Khoa Quản trị AI (kế toán AI)', 'AI 经营学部（AI 会计信息）', 'Факультет ИИ-менеджмента (ИИ-бухгалтерия)']]],
 ];
 
 const ICON = {
@@ -653,15 +653,330 @@ es: {
   addr: 'Edificio de Bienestar 2.º piso, 675 Dalseo-daero, Dalseo-gu, Daegu 42601 · Metro línea 2, estación Keimyung Univ., salida 7, 10 min a pie',
   footer: 'Según las convocatorias 2026 del Instituto de Coreano y de estudiantes internacionales para marzo de 2027. Fechas y precios pueden cambiar; revisa la convocatoria oficial antes de postular. © Oficina de Asuntos Internacionales de KMCU',
 },
+vi: {
+  nav_ls: 'Khóa tiếng Hàn', nav_deg: 'Chương trình cấp bằng', nav_visa: 'Visa', nav_guide: 'Hướng dẫn đầy đủ', nav_contact: 'Liên hệ', brand_sub: 'Hướng dẫn du học', back: '← Trang chủ',
+  vz_title: 'Tìm hiểu visa trước khi lên đường.',
+  vz_desc: 'Mỗi chương trình dùng một loại visa khác nhau. Sau khi trúng tuyển, trường cấp giấy tờ nhập học và bạn xin visa tại Đại sứ quán hoặc Lãnh sự quán Hàn Quốc.',
+  vz_ls: ['D-4-1', 'Đào tạo tiếng · Viện Ngôn ngữ Hàn', ['Sau khi trúng tuyển và đóng học phí, trường cấp Giấy báo nhập học', 'Với Uzbekistan, Việt Nam, Trung Quốc và Mông Cổ, trường xin Giấy chứng nhận cấp visa trước', 'Xin visa tại Đại sứ quán Hàn Quốc ở nước bạn', 'Nhập cảnh Hàn Quốc · định hướng'], ['Số dư tài khoản từ KRW 8,000,000 trở lên', 'Học xong có thể chuyển sang D-2 để học lên chương trình cấp bằng', 'Chỉ được làm thêm sau 6 tháng ở Hàn Quốc và phải có giấy phép của Cục Xuất nhập cảnh']],
+  vz_deg: ['D-2-1', 'Hệ cao đẳng · Chương trình cấp bằng', ['Sau khi trúng tuyển và đăng ký nhập học, trường cấp Giấy báo nhập học', 'Ở nước ngoài: xin visa tại Đại sứ quán Hàn Quốc ở nước bạn', 'Ở Hàn Quốc (ví dụ D-4): đổi tư cách lưu trú tại Cục Xuất nhập cảnh', 'Bắt đầu học sau khi nhập cảnh hoặc đổi visa'], ['Số dư tài khoản từ KRW 16,000,000 trở lên (KRW 8,000,000 với học viên tiếng Hàn của KMCU)', 'Phí đổi visa tại Hàn Quốc là KRW 135,000', 'Làm thêm cần giấy phép của Cục Xuất nhập cảnh; số giờ được phép tùy trình độ tiếng Hàn và kết quả học tập']],
+  vz_common_title: 'Sau khi đến Hàn Quốc',
+  vz_common: ['Đăng ký người nước ngoài trong vòng 90 ngày kể từ khi nhập cảnh (Cục Xuất nhập cảnh)', 'Xin gia hạn lưu trú trước khi hết hạn', 'Tỷ lệ chuyên cần thấp có thể khiến việc gia hạn khó khăn, hãy đi học đầy đủ'],
+  vz_note: 'Quy định visa theo hướng dẫn của Bộ Tư pháp và có thể thay đổi. Hãy kiểm tra thông tin mới nhất trên HiKorea và Korea Visa Portal.',
+  r_visa: 'Visa',
+  rv_ls: 'Bạn sẽ nhận visa <b>D-4-1 (đào tạo tiếng)</b>. Sau khi trường cấp Giấy báo nhập học, hãy xin visa tại Đại sứ quán Hàn Quốc ở nước bạn.',
+  rv_abroad: 'Bạn sẽ nhận visa <b>D-2-1 (hệ cao đẳng)</b>. Sau khi trường cấp Giấy báo nhập học, hãy xin visa tại Đại sứ quán Hàn Quốc ở nước bạn.',
+  rv_dom: 'Bạn sẽ đổi tư cách lưu trú sang <b>D-2-1</b> tại Cục Xuất nhập cảnh. Lệ phí là KRW 135,000.',
+  rv_ef: 'Hãy hỏi Nhóm Hỗ trợ Du học sinh xem bạn có thể học bằng visa E/F hiện tại hay cần đổi sang D-2.',
+  rv_after: 'Đăng ký người nước ngoài trong vòng 90 ngày kể từ khi nhập cảnh.',
+  hero_title: 'Bắt đầu du học Hàn Quốc<br>tại KMCU.',
+  hero_desc: 'Có hai con đường: Viện Ngôn ngữ Hàn và chương trình cấp bằng. Trả lời vài câu hỏi để biết bạn có đủ điều kiện không và cần chuẩn bị giấy tờ gì.',
+  cta_ls: 'Khóa tiếng Hàn', cta_deg: 'Chương trình cấp bằng',
+  start_ls: 'Kiểm tra khóa tiếng Hàn', start_deg: 'Kiểm tra chương trình cấp bằng',
+  hero_hint: 'Bắt đầu ngay · 4–5 câu hỏi · khoảng 1 phút · không cần thông tin cá nhân',
+  about_title: 'Từ tiếng Hàn đến tấm bằng,<br>trong cùng một trường.',
+  about_desc: 'Dựa trên hướng dẫn tuyển sinh của Phòng Hợp tác Quốc tế KMCU cho Viện Ngôn ngữ Hàn năm 2026 và kỳ nhập học tháng 3/2027.',
+  about: [['check', 'Kiểm tra <b>điều kiện</b> chỉ với vài câu hỏi'], ['pct', 'Xem <b>học phí sau học bổng</b> theo trình độ tiếng'], ['file', 'Nhận <b>danh sách giấy tờ</b> phù hợp với bạn'], ['cal', 'Xem <b>đợt tuyển sinh đang mở</b>']],
+  cmp_title: 'Hai con đường học tại KMCU', cmp_desc: 'Chọn con đường phù hợp với mục tiêu của bạn. Bạn cũng có thể học tiếng Hàn trước rồi học lên chương trình cấp bằng.',
+  ls_name: 'Khóa tiếng Hàn', ls_full: 'Viện Ngôn ngữ Hàn', deg_name: 'Chương trình cấp bằng', deg_full: 'Cao đẳng · Cử nhân',
+  flow_ls: [['Nhập cảnh', 'Visa D-4'], ['Học tiếng Hàn', '10 tuần × 4 kỳ'], ['Hoàn thành', 'Học lên cấp bằng']],
+  flow_deg: [['Nộp hồ sơ', 'Đợt 1–3'], ['Phỏng vấn', 'Theo ngành'], ['Nhập học', 'Tháng 3/2027']],
+  k_visa: 'Visa', k_req: 'Điều kiện', k_class: 'Lớp học', k_cost: 'Học phí', k_bal: 'Số dư tài khoản',
+  v_req_ls: 'Tốt nghiệp THPT', v_req_deg: 'Tốt nghiệp THPT + chứng chỉ ngôn ngữ (ví dụ TOPIK 2)',
+  v_class_ls: '10 tuần · 200 giờ mỗi kỳ', v_class_deg: 'Hơn 30 ngành, hệ 3 hoặc 4 năm',
+  v_cost_ls: '{fee} mỗi năm (4 kỳ)', v_cost_deg: '{min}–{max} mỗi học kỳ, học bổng 50–80% theo trình độ tiếng',
+  v_bal_ls: 'Từ {lsbal} trở lên', v_bal_deg: 'Từ {bal} trở lên ({kmcu} với học viên tiếng Hàn của KMCU)',
+  bridge: '<b>Học xong khóa tiếng Hàn của trường rồi học lên chương trình cấp bằng,</b> số dư tài khoản yêu cầu giảm từ {bal} xuống {kmcu}.',
+  hello_ls: 'Cùng kiểm tra điều kiện vào <b>Viện Ngôn ngữ Hàn KMCU (D-4)</b>.',
+  hello_deg: 'Cùng kiểm tra điều kiện vào <b>chương trình cấp bằng nhập học tháng 3/2027 (D-2)</b>.',
+  q: {
+    edu: ['Trình độ học vấn cao nhất của bạn là gì?', { grad: 'Tốt nghiệp THPT trở lên', soon: 'Sẽ tốt nghiệp trước khi nhập học', no: 'Không thuộc các trường hợp trên' }],
+    kor: ['Bạn có quốc tịch Hàn Quốc (kể cả hai quốc tịch) không?', { no: 'Không, chỉ có quốc tịch nước ngoài', yes: 'Có' }],
+    parent: ['Cả bố và mẹ của bạn đều là người nước ngoài?', { yes: 'Đúng, cả hai', no: 'Không, một người là người Hàn' }],
+    country: ['Quốc tịch của bạn là gì?', { uz: 'Uzbekistan', vn: 'Việt Nam', cn: 'Trung Quốc', mn: 'Mông Cổ', other: 'Quốc gia khác' }],
+    gap: ['Bạn đã tốt nghiệp từ 2 năm trở lên chưa?', { no: 'Chưa', yes: 'Rồi, từ 2 năm trở lên' }],
+    money: ['Bạn có thể chuẩn bị số dư tài khoản {bal} không?', { yes: 'Có', unsure: 'Chưa chắc' }],
+    where: ['Hiện tại bạn đang ở đâu?', { abroad: 'Nước ngoài (nước mình)', kmcu: 'Hàn Quốc · học viên Viện Ngôn ngữ Hàn KMCU', ef: 'Hàn Quốc · visa E hoặc F', other: 'Hàn Quốc · visa khác' }],
+    lang: ['Bạn có chứng chỉ ngôn ngữ nào?', { t6: 'TOPIK 6 · KIIP cấp 5 (nâng cao)', t5: 'TOPIK 5 · KIIP cấp 5 (cơ bản)', t2: 'TOPIK 2–4 · KIIP cấp 2–4', sejong: 'Viện King Sejong 2B trở lên', eng: 'Tiếng Anh (TOEFL iBT 59 · IELTS 5.5 · CEFR B2…)', kmcu: 'Đã đỗ kỳ thi tiếng Hàn đầu vào của KMCU', none: 'Chưa có' }],
+  },
+  r_ok: 'Bạn có thể nộp hồ sơ', r_cond: 'Bạn có thể nộp khi đáp ứng điều kiện', r_no: 'Với tình trạng hiện tại, bạn chưa thể nộp hồ sơ',
+  r_notes: 'Lưu ý', r_sched: 'Lịch sắp tới', r_cost: 'Chi phí dự kiến', r_bal: 'Số dư tài khoản', r_docs: 'Giấy tờ cần chuẩn bị', r_tuition: 'Học phí học kỳ đầu (sau học bổng)', r_int: 'Phỏng vấn', r_bridge: 'Bước tiếp theo',
+  no_edu: 'Bạn cần có ít nhất bằng tốt nghiệp THPT.',
+  c_none: 'Quốc gia khác (không có trong danh sách)',
+  no_kor: 'Người có quốc tịch Hàn Quốc (kể cả hai quốc tịch) không thể nộp theo diện người nước ngoài.',
+  no_parent: 'Với chương trình cấp bằng, bạn và cả bố mẹ đều phải là người nước ngoài.',
+  soon: 'Bạn phải tốt nghiệp trước khi nhập học. Hãy chuẩn bị giấy chứng nhận (dự kiến) tốt nghiệp.',
+  money_unsure: 'Cần số dư tài khoản tối thiểu {bal} để xin visa. Hãy chuẩn bị sớm.',
+  gap_note: 'Vì đã tốt nghiệp từ 2 năm trở lên, bạn cần nộp thêm thư giải trình.',
+  ccvi: 'Với quốc gia của bạn, trường xin Giấy chứng nhận cấp visa trước. Sau đó có thể được yêu cầu sao kê ngân hàng 6 tháng.',
+  lang_none: 'Cần có chứng chỉ ngôn ngữ. Hãy thi đỗ kỳ thi tiếng Hàn đầu vào của KMCU hoặc học tại Viện Ngôn ngữ Hàn của trường trước.',
+  lang_temp: 'Bạn nhận học bổng 50% học kỳ đầu. Từ học kỳ 2, cần nộp TOPIK 2 hoặc KIIP cấp 2 trở lên để duy trì.',
+  ef: 'Người có visa E, F nộp ít giấy tờ hơn. Hãy liên hệ Nhóm Hỗ trợ Du học sinh trước.',
+  kmcu_student: 'Nộp hồ sơ học tại Viện Ngôn ngữ Hàn (xác nhận đang học, bảng điểm, chuyên cần, hoàn thành). Chuyên cần kỳ gần nhất phải từ 70% trở lên.',
+  ls_open: '<b>{term}</b> đang nhận hồ sơ: {a} – {b}', ls_next: '<b>{term}</b> nhận hồ sơ: {a} – {b}', ls_class: 'Thời gian học: {a} – {b}',
+  ls_tba: 'Lịch năm 2027 chưa được công bố. Năm ngoái, kỳ mùa xuân nhận hồ sơ từ 17/11 đến 31/12. Hãy liên hệ để biết lịch.',
+  deg_open: '<b>Đợt {n}</b> đang nhận hồ sơ: {a} – {b}', deg_next: '<b>Đợt {n}</b> nhận hồ sơ: {a} – {b}', deg_after: 'Phỏng vấn: {i} · Kết quả: {r}',
+  deg_closed: 'Tất cả các đợt tuyển sinh tháng 3/2027 đã kết thúc.',
+  c_app: 'Phí nộp hồ sơ (một lần)', c_year: 'Học phí 1 năm (4 kỳ)', c_topik: 'Lệ phí thi TOPIK', c_dorm: 'Ký túc xá (không gồm tiền ăn)',
+  bal_valid: 'trở lên · cấp trong vòng 1 tháng trước khi nộp hồ sơ',
+  balc: { uz: 'Giấy xác nhận số dư của ngân hàng KDB, hoặc sao kê từ 3 tháng trở lên', vn: 'Giấy xác nhận tiền gửi theo quy định riêng cho Việt Nam (ví dụ Woori Bank Việt Nam)', cn: 'Giấy xác nhận số dư còn ít nhất 30 ngày phong tỏa', mn: 'Giấy xác nhận số dư (bản gốc)', other: 'Giấy xác nhận số dư (bản gốc)' },
+  bal_6m: 'Có thể được yêu cầu sao kê giao dịch từ 6 tháng trở lên sau khi nộp 1–2 tuần.',
+  bal_deg: 'Bản gốc · cấp trong vòng 1 tháng · kèm giấy tờ chứng minh nguồn tiền (ví dụ lịch sử chuyển tiền)',
+  d: { sheet: 'Phiếu thông tin cá nhân (Excel)', passport: 'Bản sao hộ chiếu · ảnh thẻ (JPG)', bal: 'Giấy xác nhận số dư (bản gốc)', edu: 'Bằng cấp cao nhất (bản gốc + bản dịch công chứng)', income: 'Giấy xác nhận thu nhập của người bảo lãnh', family: 'Giấy xác nhận quan hệ gia đình (giấy chứng tử/ly hôn nếu có)', pid: 'Bản sao giấy tờ tùy thân của người bảo lãnh', birth: 'Giấy khai sinh', app: 'Đơn xin nhập học · bản tự giới thiệu', translator: 'Giấy xác nhận của người dịch (kèm giấy tờ tùy thân người dịch)', explain: 'Thư giải trình', photos: 'Ảnh gia đình, nơi làm việc của người bảo lãnh và nhà ở', langscore: 'Một chứng chỉ ngôn ngữ (TOPIK…)', lsdocs: 'Hồ sơ học tại Viện Ngôn ngữ Hàn', visafee: 'Phí đổi visa KRW 135,000', lease: 'Hợp đồng thuê nhà (Daegu)' },
+  educ: { uz: 'apostille + chứng thực của Bộ Ngoại giao', vn: 'hợp pháp hóa lãnh sự', cn: 'báo cáo xác minh của CHESICC (chấp nhận apostille)', mn: 'apostille hoặc hợp pháp hóa lãnh sự', other: 'apostille hoặc hợp pháp hóa lãnh sự', deg: 'apostille hoặc hợp pháp hóa lãnh sự · trong vòng 6 tháng' },
+  docs_note: 'Giấy tờ không phải tiếng Hàn hoặc tiếng Anh cần bản dịch công chứng (công chứng trong vòng 6 tháng). Giấy tờ đã nộp không được trả lại.',
+  g: { hum1: 'Nhân văn · Xã hội', hum2: 'Hành chính y tế', eng: 'Kỹ thuật · Tự nhiên · Nghệ thuật · Thể thao' },
+  th_group: 'Khối ngành', th_base: 'Học phí', th_sch: 'Học bổng', th_pay: 'Số tiền phải đóng',
+  union_note: 'Cộng thêm phí hội sinh viên KRW 79,000 · Học phí có thể thay đổi.',
+  int_text: 'Phỏng vấn chuyên sâu, 100 điểm (động lực, khả năng thích nghi, khả năng diễn đạt, kiến thức chuyên ngành, mỗi mục 25%). Dưới 50 điểm hoặc vắng mặt là không đạt. Ngành Âm nhạc biểu diễn thi thực hành trực tiếp.',
+  bridge_r: 'Học xong khóa tiếng Hàn, bạn có thể học lên chương trình cấp bằng. Khi đó số dư tài khoản yêu cầu chỉ còn {kmcu}.',
+  btn_apply: 'Nộp hồ sơ trực tuyến', btn_contact: 'Hỏi chúng tôi', btn_to_ls: 'Kiểm tra khóa tiếng Hàn', btn_to_deg: 'Kiểm tra chương trình cấp bằng', btn_restart: 'Làm lại',
+  guide_title: 'Hướng dẫn đầy đủ', guide_desc: 'Những điểm chính trong hướng dẫn tuyển sinh chính thức. Hãy luôn kiểm tra bản hướng dẫn chính thức trước khi nộp hồ sơ.',
+  fold_open: 'Xem chi tiết', fold_close: 'Thu gọn',
+  gt_ls: 'Viện Ngôn ngữ Hàn (D-4)', gt_deg: 'Chương trình cấp bằng (tháng 3/2027 · D-2)', gt_dept: 'Các ngành', gt_dorm: 'Ký túc xá (Dongsan Hall)',
+  terms: { spring: 'Kỳ xuân', summer: 'Kỳ hè', fall: 'Kỳ thu', winter: 'Kỳ đông' },
+  th_term: 'Kỳ', th_classp: 'Thời gian học', th_apply: 'Nhận hồ sơ', th_int: 'Phỏng vấn (trực tuyến)',
+  h_sched: 'Lịch học', h_cost: 'Chi phí', h_steps: 'Quy trình nộp hồ sơ', h_docs: 'Giấy tờ', h_perks: 'Quyền lợi', h_req: 'Điều kiện', h_rounds: 'Các đợt tuyển sinh', h_sch: 'Học bổng (học kỳ đầu)', h_how: 'Cách nộp hồ sơ',
+  ls_hours: '10 tuần · 200 giờ mỗi kỳ (thứ Hai–thứ Sáu, 4 giờ/ngày). Lịch có thể thay đổi tùy tiến độ xét visa.',
+  steps: ['Nộp hồ sơ (email + bản gốc qua bưu điện hoặc trực tiếp)', 'Phỏng vấn sau khi xét hồ sơ (Zoom…)', 'Công bố kết quả · đóng học phí (có hóa đơn)', 'Cấp Giấy báo nhập học', 'Xin Giấy chứng nhận cấp visa (Uzbekistan, Việt Nam, Trung Quốc, Mông Cổ)', 'Kết quả Giấy chứng nhận cấp visa', 'Xin visa tại Đại sứ quán Hàn Quốc', 'Nhận visa', 'Nhập cảnh · định hướng · khám sức khỏe'],
+  ls_docs_extra: 'Giấy xác nhận của người dịch, thư giải trình và ảnh gia đình chỉ áp dụng cho Uzbekistan, Việt Nam, Trung Quốc và Mông Cổ.',
+  perks: ['Hỗ trợ bảo hiểm y tế 6 tháng đầu', 'Thưởng KRW 250,000 khi đạt TOPIK 3 trở lên', 'Trải nghiệm văn hóa và tham quan doanh nghiệp mỗi kỳ', 'Hỗ trợ bằng tiếng Việt, tiếng Trung, tiếng Nhật và tiếng Anh', 'Học lên chương trình cấp bằng sau khi hoàn thành'],
+  req: ['Tốt nghiệp THPT (hoặc tương đương)', 'Bạn và cả bố mẹ đều là người nước ngoài', 'Đủ điều kiện nhận visa D-2-1', 'Một chứng chỉ ngôn ngữ: TOPIK 2 · KIIP cấp 2 · King Sejong 2B · tiếng Anh (TOEFL iBT 59…) · kỳ thi tiếng Hàn đầu vào của KMCU'],
+  th_round: 'Đợt', th_apply2: 'Nhận hồ sơ', th_int2: 'Phỏng vấn', th_result: 'Kết quả',
+  reg_note: 'Đăng ký nhập học: đặt cọc 21–23/12/2026 · bổ sung 24–31/12 · chính thức 10–12/2/2027',
+  th_cond: 'Điều kiện', th_rate: 'Giảm',
+  sch: { t2: 'TOPIK 2–4 · KIIP 2–4 · King Sejong 2B · chứng chỉ tiếng Anh', t5: 'TOPIK 5 · KIIP 5 (cơ bản)', t6: 'TOPIK 6 · KIIP 5 (nâng cao)' },
+  sch_after: 'Sinh viên đang học tiếp tục nhận từ 20% (TOPIK 2) đến 80% (TOPIK 6). Nhập học cùng bạn bè nhận hỗ trợ mentor-mentee KRW 300,000 mỗi người (có điều kiện).',
+  th_doc: 'Giấy tờ', th_abroad: 'Từ nước ngoài', th_dom: 'Tại Hàn Quốc',
+  how: 'Trực tiếp: Phòng Hợp tác Quốc tế, tầng 2 Tòa Phúc lợi (ngày thường 09:00–19:00, thứ Bảy đến 14:00) · Bưu điện: phải đến trước 18:00 ngày hết hạn · Email: ofofarmer@kmcu.ac.kr',
+  th_room: 'Tòa nhà', th_type: 'Phòng', th_price: 'Phí',
+  dorm: { m2: ['Nam · phòng studio ngoài trường', '2 người/phòng'], fA4: ['Nữ · trong trường A', '4 người/phòng'], fB4: ['Nữ · trong trường B', '4 người/phòng'], fB2: ['Nữ · trong trường B', '2 người/phòng'] },
+  dorm_note: 'Không gồm tiền ăn (tự nấu hoặc dùng căng tin) · Văn phòng ký túc xá +82-53-589-7982',
+  links_title: 'Luôn kiểm tra<br>nguồn chính thức.',
+  links_desc: 'Trang này giúp bạn lên kế hoạch. Lịch và giấy tờ có thể thay đổi, hãy kiểm tra hướng dẫn tuyển sinh chính thức trước khi nộp hồ sơ.',
+  l: { applyLs: ['Nộp hồ sơ khóa tiếng Hàn', 'NỘP TRỰC TUYẾN'], applyDeg: ['Nộp hồ sơ chương trình cấp bằng', 'NỘP TRỰC TUYẾN'], lsInfo: ['Tuyển sinh Viện Ngôn ngữ Hàn', 'Hướng dẫn tuyển sinh PDF'], degInfo: ['Tuyển sinh hệ chính quy', 'Hướng dẫn · mẫu đơn'], global: ['Trang Phòng Hợp tác Quốc tế', 'Thông báo · tải tài liệu'] },
+  contact_title: 'Liên hệ', c1: 'Tiếng Hàn · tiếng Anh', c2: 'Tiếng Hàn · tiếng Việt', c_mail: 'Email', c_addr: 'Địa chỉ',
+  addr: 'Tầng 2 Tòa Phúc lợi, 675 Dalseo-daero, Dalseo-gu, Daegu 42601 · Tàu điện ngầm tuyến 2, ga Keimyung Univ. cửa số 7, đi bộ 10 phút',
+  footer: 'Dựa trên hướng dẫn tuyển sinh du học sinh của Viện Ngôn ngữ Hàn năm 2026 và kỳ tháng 3/2027. Lịch và chi phí có thể thay đổi; hãy kiểm tra bản hướng dẫn chính thức trước khi nộp hồ sơ. © Phòng Hợp tác Quốc tế KMCU',
+},
+zh: {
+  nav_ls: '语言课程', nav_deg: '学位课程', nav_visa: '签证', nav_guide: '完整指南', nav_contact: '咨询', brand_sub: '留学指南', back: '← 首页',
+  vz_title: '出发前先了解签证。',
+  vz_desc: '不同课程使用不同的签证。录取后，学校会发放入学材料，你再到韩国大使馆或领事馆申请签证。',
+  vz_ls: ['D-4-1', '语言研修 · 韩国语学堂', ['录取并缴费后，学校发放标准入学许可书', '乌兹别克斯坦、越南、中国、蒙古的申请人，由学校先申请签证发给认定书', '在本国的韩国大使馆申请签证', '入境韩国 · 新生说明会'], ['存款余额 KRW 8,000,000 以上', '结业后可转为 D-2，继续攻读学位课程', '在韩满 6 个月后，经出入境管理局许可方可打工']],
+  vz_deg: ['D-2-1', '专科学历 · 学位课程', ['录取并完成注册后，学校发放标准入学许可书', '在国外：在本国的韩国大使馆申请签证', '在韩国（如 D-4）：到出入境管理事务所变更滞留资格', '入境或变更签证后开始上课'], ['存款余额 KRW 16,000,000 以上（KMCU 语学堂学生为 KRW 8,000,000）', '在韩国境内变更签证费用为 KRW 135,000', '打工须经出入境管理局许可，允许时长根据韩语水平和学业成绩而定']],
+  vz_common_title: '入境以后',
+  vz_common: ['入境后 90 天内办理外国人登录（出入境管理事务所）', '滞留期满前申请延长', '出勤率低可能导致难以延期，请保持出勤'],
+  vz_note: '签证规定以法务部指南为准，可能发生变化。最新信息请查看 HiKorea 和韩国签证门户网站（Korea Visa Portal）。',
+  r_visa: '签证',
+  rv_ls: '你将获得 <b>D-4-1（语言研修）</b>签证。学校发放标准入学许可书后，请在本国的韩国大使馆申请。',
+  rv_abroad: '你将获得 <b>D-2-1（专科学历）</b>签证。学校发放标准入学许可书后，请在本国的韩国大使馆申请。',
+  rv_dom: '你需要到出入境管理事务所将滞留资格变更为 <b>D-2-1</b>，费用为 KRW 135,000。',
+  rv_ef: '请向留学生支援组确认，能否用现在的 E/F 签证就读，还是需要变更为 D-2。',
+  rv_after: '入境后 90 天内办理外国人登录。',
+  hero_title: '在 KMCU<br>开启你的韩国留学。',
+  hero_desc: '两条入学途径：韩国语学堂和学位课程。回答几个问题，就能知道你是否符合条件、需要准备哪些材料。',
+  cta_ls: '语言课程', cta_deg: '学位课程',
+  start_ls: '开始语言课程评估', start_deg: '开始学位课程评估',
+  hero_hint: '点击即开始 · 4–5 个问题 · 约 1 分钟 · 无需填写个人信息',
+  about_title: '从韩语到学位，<br>在同一所学校完成。',
+  about_desc: '根据 KMCU 国际交流处发布的 2026 学年度韩国语学堂和 2027 年 3 月入学招生简章整理。',
+  about: [['check', '几个问题即可确认<b>申请资格</b>'], ['pct', '按语言水平查看<b>奖学金后的学费</b>'], ['file', '获取适合你情况的<b>材料清单</b>'], ['cal', '查看<b>当前开放的招生批次</b>']],
+  cmp_title: '在 KMCU 学习的两种方式', cmp_desc: '选择适合你目标的方式。也可以先读韩语课程，再升入学位课程。',
+  ls_name: '语言课程', ls_full: '韩国语学堂', deg_name: '学位课程', deg_full: '专科 · 本科',
+  flow_ls: [['入境', 'D-4 签证'], ['韩语课程', '10 周 × 4 学期'], ['结业', '升入学位课程']],
+  flow_deg: [['申请', '第 1–3 批'], ['面试', '按专业'], ['入学', '2027 年 3 月']],
+  k_visa: '签证', k_req: '申请资格', k_class: '课程', k_cost: '学费', k_bal: '存款余额',
+  v_req_ls: '高中毕业', v_req_deg: '高中毕业 + 语言成绩（如 TOPIK 2 级）',
+  v_class_ls: '每学期 10 周 · 200 课时', v_class_deg: '30 多个专业，3 年制或 4 年制',
+  v_cost_ls: '每年 {fee}（4 个学期）', v_cost_deg: '每学期 {min}–{max}，按语言水平享 50–80% 奖学金',
+  v_bal_ls: '{lsbal} 以上', v_bal_deg: '{bal} 以上（KMCU 语学堂学生为 {kmcu}）',
+  bridge: '<b>读完本校韩语课程后再申请学位课程，</b>所需存款余额从 {bal} 降至 {kmcu}。',
+  hello_ls: '我们来确认你是否符合 <b>KMCU 韩国语学堂（D-4）</b>的申请条件。',
+  hello_deg: '我们来确认你是否符合 <b>2027 年 3 月入学学位课程（D-2）</b>的申请条件。',
+  q: {
+    edu: ['你的最高学历是什么？', { grad: '高中毕业或以上', soon: '入学前毕业', no: '以上都不是' }],
+    kor: ['你是否拥有韩国国籍（包括双重国籍）？', { no: '没有，只有外国国籍', yes: '有' }],
+    parent: ['你的父母双方都是外国国籍吗？', { yes: '是的，双方都是', no: '不是，有一方是韩国人' }],
+    country: ['你的国籍是？', { uz: '乌兹别克斯坦', vn: '越南', cn: '中国', mn: '蒙古', other: '其他国家' }],
+    gap: ['毕业是否已满 2 年？', { no: '未满', yes: '已满 2 年' }],
+    money: ['你能准备 {bal} 的存款余额吗？', { yes: '可以', unsure: '还不确定' }],
+    where: ['你现在在哪里？', { abroad: '国外（本国）', kmcu: '韩国 · KMCU 韩国语学堂在读', ef: '韩国 · E 或 F 签证', other: '韩国 · 其他签证' }],
+    lang: ['你有哪种语言成绩？', { t6: 'TOPIK 6 级 · KIIP 5 级（深化）', t5: 'TOPIK 5 级 · KIIP 5 级（基本）', t2: 'TOPIK 2–4 级 · KIIP 2–4 级', sejong: '世宗学堂 2B 以上', eng: '英语（TOEFL iBT 59 · IELTS 5.5 · CEFR B2 等）', kmcu: '通过 KMCU 韩语入学考试', none: '还没有' }],
+  },
+  r_ok: '可以申请', r_cond: '满足条件后可以申请', r_no: '以目前情况无法申请',
+  r_notes: '请注意', r_sched: '接下来的日程', r_cost: '预计费用', r_bal: '存款余额', r_docs: '需要准备的材料', r_tuition: '第一学期学费（含奖学金）', r_int: '面试', r_bridge: '下一步',
+  no_edu: '至少需要高中毕业学历。',
+  c_none: '其他国家（列表中没有）',
+  no_kor: '拥有韩国国籍（包括双重国籍）的人不能以外国人身份申请。',
+  no_parent: '学位课程要求本人及父母双方均为外国国籍。',
+  soon: '必须在入学前毕业。请准备（预计）毕业证明。',
+  money_unsure: '申请签证需要至少 {bal} 的存款余额，请尽早准备。',
+  gap_note: '毕业已满 2 年，需另外提交情况说明书。',
+  ccvi: '你所在的国家需要由学校先申请签证发给认定书。之后可能会要求提供 6 个月的银行流水。',
+  lang_none: '需要语言成绩。请通过 KMCU 韩语入学考试，或先在本校韩国语学堂学习。',
+  lang_temp: '第一学期可享 50% 奖学金。从第二学期起，需提交 TOPIK 2 级或 KIIP 2 级以上成绩才能继续享受。',
+  ef: 'E、F 签证持有者需提交的材料较少。请先联系留学生支援组。',
+  kmcu_student: '请提交韩国语学堂的学习材料（在读、成绩、出勤、结业证明）。上学期出勤率须在 70% 以上。',
+  ls_open: '<b>{term}</b>正在接受申请：{a} – {b}', ls_next: '<b>{term}</b>申请时间：{a} – {b}', ls_class: '上课时间：{a} – {b}',
+  ls_tba: '2027 学年度日程尚未公布。去年春季学期的申请时间为 11 月 17 日至 12 月 31 日。具体日期请咨询。',
+  deg_open: '<b>第 {n} 批</b>正在接受申请：{a} – {b}', deg_next: '<b>第 {n} 批</b>申请时间：{a} – {b}', deg_after: '面试：{i} · 公布结果：{r}',
+  deg_closed: '2027 年 3 月入学的所有批次均已结束。',
+  c_app: '报名费（一次）', c_year: '学费 1 年（4 个学期）', c_topik: 'TOPIK 考试费', c_dorm: '宿舍（不含伙食）',
+  bal_valid: '以上 · 申请前 1 个月内开具',
+  balc: { uz: 'KDB 银行存款证明，或 3 个月以上的银行流水', vn: '根据越南特例开具的存款证明（如越南友利银行）', cn: '存款冻结期剩余 30 天以上的存款证明', mn: '存款证明（原件）', other: '存款证明（原件）' },
+  bal_6m: '提交后 1–2 周内，可能会要求提供 6 个月以上的交易流水。',
+  bal_deg: '原件 · 1 个月内开具 · 附资金来源证明（如汇款记录）',
+  d: { sheet: '个人信息表（Excel）', passport: '护照复印件 · 证件照（JPG）', bal: '存款证明（原件）', edu: '最终学历证明（原件 + 公证翻译件）', income: '监护人收入证明', family: '亲属关系证明（如适用，附死亡/离婚证明）', pid: '监护人身份证复印件', birth: '出生证明', app: '入学申请书 · 自我介绍书', translator: '翻译确认书（附翻译者身份证）', explain: '情况说明书', photos: '家庭、监护人工作单位及住宅照片', langscore: '一项语言成绩（TOPIK 等）', lsdocs: '韩国语学堂学习材料', visafee: '签证变更费 KRW 135,000', lease: '房屋租赁合同（大邱）' },
+  educ: { uz: '海牙认证 + 外交部公证', vn: '领事认证', cn: '学信网（CHESICC）认证报告（也可海牙认证）', mn: '海牙认证或领事认证', other: '海牙认证或领事认证', deg: '海牙认证或领事认证 · 6 个月内' },
+  docs_note: '非韩文或英文的材料需附公证翻译件（6 个月内公证）。已提交的材料不予退还。',
+  g: { hum1: '人文 · 社会', hum2: '保健行政', eng: '工科 · 自然 · 艺体' },
+  th_group: '类别', th_base: '学费', th_sch: '奖学金', th_pay: '实缴金额',
+  union_note: '另加学生会费 KRW 79,000 · 学费可能调整。',
+  int_text: '深度面试，满分 100 分（学习动机、适应能力、表达能力、专业知识各占 25%）。低于 50 分或缺席即不合格。表演音乐专业另行现场实技考试。',
+  bridge_r: '读完韩语课程后，可以升入学位课程。届时所需存款余额只需 {kmcu}。',
+  btn_apply: '在线申请', btn_contact: '咨询我们', btn_to_ls: '评估语言课程', btn_to_deg: '评估学位课程', btn_restart: '重新开始',
+  guide_title: '完整指南', guide_desc: '整理了官方招生简章中的要点。申请前请务必查看官方简章。',
+  fold_open: '查看详情', fold_close: '收起',
+  gt_ls: '韩国语学堂（D-4）', gt_deg: '学位课程（2027 年 3 月 · D-2）', gt_dept: '专业', gt_dorm: '宿舍（东山馆）',
+  terms: { spring: '春季学期', summer: '夏季学期', fall: '秋季学期', winter: '冬季学期' },
+  th_term: '学期', th_classp: '上课时间', th_apply: '申请时间', th_int: '面试（线上）',
+  h_sched: '学期日程', h_cost: '费用', h_steps: '申请流程', h_docs: '材料', h_perks: '福利', h_req: '申请资格', h_rounds: '招生批次', h_sch: '奖学金（第一学期）', h_how: '提交方式',
+  ls_hours: '每学期 10 周 · 200 课时（周一至周五，每天 4 小时）。日程可能因签证审批进度而调整。',
+  steps: ['提交材料（电子邮件 + 原件邮寄或亲自递交）', '材料审核后面试（Zoom 等）', '公布结果 · 缴纳学费（开具缴费单）', '发放标准入学许可书', '申请签证发给认定书（乌兹别克斯坦、越南、中国、蒙古）', '签证发给认定书审批结果', '在韩国大使馆申请签证', '签证签发', '入境 · 新生说明会 · 体检'],
+  ls_docs_extra: '翻译确认书、情况说明书和家庭照片仅适用于乌兹别克斯坦、越南、中国和蒙古。',
+  perks: ['前 6 个月医疗保险补助', 'TOPIK 3 级以上奖励 KRW 250,000', '每学期文化体验和企业参观', '提供越南语、中文、日语和英语支持', '结业后可升入学位课程'],
+  req: ['高中毕业（或同等学历）', '本人及父母双方均为外国国籍', '符合 D-2-1 签证条件', '一项语言成绩：TOPIK 2 级 · KIIP 2 级 · 世宗学堂 2B · 英语（TOEFL iBT 59 等）· KMCU 韩语入学考试'],
+  th_round: '批次', th_apply2: '申请时间', th_int2: '面试', th_result: '公布结果',
+  reg_note: '注册：预缴 2026 年 12 月 21–23 日 · 补充 12 月 24–31 日 · 正式 2027 年 2 月 10–12 日',
+  th_cond: '条件', th_rate: '减免',
+  sch: { t2: 'TOPIK 2–4 级 · KIIP 2–4 级 · 世宗学堂 2B · 英语成绩', t5: 'TOPIK 5 级 · KIIP 5 级（基本）', t6: 'TOPIK 6 级 · KIIP 5 级（深化）' },
+  sch_after: '在校生按成绩继续享受 20%（TOPIK 2 级）至 80%（TOPIK 6 级）。和朋友一起入学，每人可获 KRW 300,000 导师-学员补助（有条件）。',
+  th_doc: '材料', th_abroad: '国外申请', th_dom: '韩国境内申请',
+  how: '亲自递交：福利馆 2 楼国际交流处（工作日 09:00–19:00，周六至 14:00）· 邮寄：须在截止日 18:00 前送达 · 电子邮件：ofofarmer@kmcu.ac.kr',
+  th_room: '宿舍楼', th_type: '房型', th_price: '费用',
+  dorm: { m2: ['男生 · 校外单间公寓', '2 人间'], fA4: ['女生 · 校内 A', '4 人间'], fB4: ['女生 · 校内 B', '4 人间'], fB2: ['女生 · 校内 B', '2 人间'] },
+  dorm_note: '不含伙食（自己做饭或使用食堂）· 宿舍办公室 +82-53-589-7982',
+  links_title: '请务必查看<br>官方信息。',
+  links_desc: '本页面用于帮助你做计划。日程和材料可能变化，申请前请查看官方招生简章。',
+  l: { applyLs: ['语言课程申请', 'APPLY ONLINE'], applyDeg: ['学位课程申请', 'APPLY ONLINE'], lsInfo: ['韩国语学堂招生', '招生简章 PDF'], degInfo: ['本专科招生', '简章 · 申请表'], global: ['国际交流处网站', '通知 · 资料下载'] },
+  contact_title: '联系我们', c1: '韩语 · 英语', c2: '韩语 · 越南语', c_mail: '电子邮件', c_addr: '地址',
+  addr: '大邱广域市达西区达西大路 675 福利馆 2 楼（邮编 42601）· 地铁 2 号线启明大学站 7 号出口，步行 10 分钟',
+  footer: '根据 2026 学年度韩国语学堂和 2027 年 3 月外国留学生招生简章整理。日程和费用可能变化，申请前请查看官方简章。© KMCU 国际交流处',
+},
+ru: {
+  nav_ls: 'Языковой курс', nav_deg: 'Обучение на степень', nav_visa: 'Виза', nav_guide: 'Полное руководство', nav_contact: 'Контакты', brand_sub: 'Гид по учёбе', back: '← На главную',
+  vz_title: 'Узнайте о визе до поездки.',
+  vz_desc: 'Для каждой программы нужна своя виза. После зачисления университет выдаёт документы о приёме, а вы подаёте на визу в посольство или консульство Кореи.',
+  vz_ls: ['D-4-1', 'Языковая стажировка · Институт корейского языка', ['После зачисления и оплаты университет выдаёт подтверждение о зачислении', 'Для Узбекистана, Вьетнама, Китая и Монголии университет сначала оформляет сертификат на выдачу визы', 'Подайте на визу в посольство Кореи в своей стране', 'Приезд в Корею · ориентация'], ['Остаток на счёте от KRW 8,000,000', 'После окончания можно сменить визу на D-2 и поступить на степень', 'Подработка — только после 6 месяцев в Корее и с разрешения иммиграционной службы']],
+  vz_deg: ['D-2-1', 'Обучение в колледже · Программа на степень', ['После зачисления и регистрации университет выдаёт подтверждение о зачислении', 'Из-за рубежа: подайте на визу в посольство Кореи в своей стране', 'В Корее (например, с D-4): смените статус в иммиграционной службе', 'Начните учёбу после приезда или смены визы'], ['Остаток на счёте от KRW 16,000,000 (KRW 8,000,000 для студентов языковых курсов KMCU)', 'Смена статуса в Корее стоит KRW 135,000', 'Для подработки нужно разрешение иммиграционной службы; часы зависят от уровня корейского и успеваемости']],
+  vz_common_title: 'После приезда',
+  vz_common: ['Зарегистрируйтесь как иностранец в течение 90 дней после въезда (иммиграционная служба)', 'Продлите срок пребывания до его окончания', 'При низкой посещаемости продление может быть затруднено, поэтому не пропускайте занятия'],
+  vz_note: 'Визовые правила устанавливает Министерство юстиции, и они могут меняться. Актуальную информацию смотрите на HiKorea и Korea Visa Portal.',
+  r_visa: 'Виза',
+  rv_ls: 'Вы получите визу <b>D-4-1 (языковая стажировка)</b>. Когда университет выдаст подтверждение о зачислении, подайте на визу в посольство Кореи в своей стране.',
+  rv_abroad: 'Вы получите визу <b>D-2-1 (обучение в колледже)</b>. Когда университет выдаст подтверждение о зачислении, подайте на визу в посольство Кореи в своей стране.',
+  rv_dom: 'Вы смените статус на <b>D-2-1</b> в иммиграционной службе. Сбор — KRW 135,000.',
+  rv_ef: 'Уточните в отделе поддержки иностранных студентов, можно ли учиться с вашей визой E/F или нужно сменить её на D-2.',
+  rv_after: 'Зарегистрируйтесь как иностранец в течение 90 дней после въезда.',
+  hero_title: 'Начните учёбу в Корее<br>в KMCU.',
+  hero_desc: 'Два пути: Институт корейского языка и программы на степень. Ответьте на несколько вопросов и узнайте, подходите ли вы и какие документы нужны.',
+  cta_ls: 'Языковой курс', cta_deg: 'Обучение на степень',
+  start_ls: 'Проверить языковой курс', start_deg: 'Проверить программу на степень',
+  hero_hint: 'Начинается сразу · 4–5 вопросов · около 1 минуты · без личных данных',
+  about_title: 'От корейского языка до диплома —<br>в одном университете.',
+  about_desc: 'По материалам приёмной кампании Отдела международного сотрудничества KMCU: Институт корейского языка 2026 и набор на март 2027 года.',
+  about: [['check', 'Проверьте <b>свои шансы</b> за несколько вопросов'], ['pct', 'Узнайте <b>стоимость обучения со стипендией</b> по уровню языка'], ['file', 'Получите <b>список документов</b> для вашей ситуации'], ['cal', 'Посмотрите, <b>какой набор открыт</b> сейчас']],
+  cmp_title: 'Два способа учиться в KMCU', cmp_desc: 'Выберите то, что подходит вашей цели. Можно сначала пройти курс корейского, а затем поступить на степень.',
+  ls_name: 'Языковой курс', ls_full: 'Институт корейского языка', deg_name: 'Обучение на степень', deg_full: 'Колледж · Бакалавриат',
+  flow_ls: [['Приезд', 'Виза D-4'], ['Курс корейского', '10 недель × 4 семестра'], ['Окончание', 'Переход на степень']],
+  flow_deg: [['Подача', 'Наборы 1–3'], ['Собеседование', 'По специальности'], ['Зачисление', 'Март 2027']],
+  k_visa: 'Виза', k_req: 'Требования', k_class: 'Занятия', k_cost: 'Стоимость', k_bal: 'Остаток на счёте',
+  v_req_ls: 'Окончание средней школы', v_req_deg: 'Окончание средней школы + языковой сертификат (например, TOPIK 2)',
+  v_class_ls: '10 недель · 200 часов за семестр', v_class_deg: 'Более 30 специальностей, программы 3 или 4 года',
+  v_cost_ls: '{fee} в год (4 семестра)', v_cost_deg: '{min}–{max} за семестр, стипендия 50–80% по уровню языка',
+  v_bal_ls: 'От {lsbal}', v_bal_deg: 'От {bal} ({kmcu} для студентов языковых курсов KMCU)',
+  bridge: '<b>Закончите наш курс корейского и поступайте на степень</b> — требуемый остаток на счёте снизится с {bal} до {kmcu}.',
+  hello_ls: 'Проверим, можете ли вы поступить в <b>Институт корейского языка KMCU (D-4)</b>.',
+  hello_deg: 'Проверим, можете ли вы поступить на <b>программу на степень с марта 2027 года (D-2)</b>.',
+  q: {
+    edu: ['Какое у вас образование?', { grad: 'Средняя школа или выше', soon: 'Окончу до начала учёбы', no: 'Ничего из этого' }],
+    kor: ['Есть ли у вас гражданство Кореи (включая двойное)?', { no: 'Нет, только иностранное', yes: 'Да' }],
+    parent: ['Оба ваших родителя — иностранные граждане?', { yes: 'Да, оба', no: 'Нет, один из них кореец' }],
+    country: ['Ваше гражданство?', { uz: 'Узбекистан', vn: 'Вьетнам', cn: 'Китай', mn: 'Монголия', other: 'Другая страна' }],
+    gap: ['Прошло ли 2 года или больше после окончания школы?', { no: 'Нет', yes: 'Да, 2 года и больше' }],
+    money: ['Сможете ли вы подтвердить остаток на счёте {bal}?', { yes: 'Да', unsure: 'Пока не уверен(а)' }],
+    where: ['Где вы сейчас?', { abroad: 'За рубежом (в своей стране)', kmcu: 'В Корее · студент Института корейского языка KMCU', ef: 'В Корее · виза E или F', other: 'В Корее · другая виза' }],
+    lang: ['Какой у вас языковой сертификат?', { t6: 'TOPIK 6 · KIIP 5 (продвинутый)', t5: 'TOPIK 5 · KIIP 5 (базовый)', t2: 'TOPIK 2–4 · KIIP 2–4', sejong: 'Институт короля Седжона 2B и выше', eng: 'Английский (TOEFL iBT 59 · IELTS 5.5 · CEFR B2 и др.)', kmcu: 'Сдан вступительный тест KMCU по корейскому', none: 'Пока нет' }],
+  },
+  r_ok: 'Вы можете подать заявку', r_cond: 'Вы можете подать заявку при выполнении условия', r_no: 'В вашей ситуации подать заявку нельзя',
+  r_notes: 'Обратите внимание', r_sched: 'Ближайшие даты', r_cost: 'Примерные расходы', r_bal: 'Остаток на счёте', r_docs: 'Документы', r_tuition: 'Оплата за первый семестр (со стипендией)', r_int: 'Собеседование', r_bridge: 'Что дальше',
+  no_edu: 'Нужен как минимум аттестат о среднем образовании.',
+  c_none: 'Другая страна (нет в списке)',
+  no_kor: 'Граждане Кореи (включая двойное гражданство) не могут поступать как иностранцы.',
+  no_parent: 'Для программы на степень вы и оба родителя должны быть иностранными гражданами.',
+  soon: 'Нужно окончить школу до начала учёбы. Подготовьте справку о (предстоящем) окончании.',
+  money_unsure: 'Для визы нужен остаток на счёте не менее {bal}. Начните готовиться заранее.',
+  gap_note: 'Так как после окончания прошло 2 года или больше, нужно также объяснительное письмо.',
+  ccvi: 'Для вашей страны университет сначала оформляет сертификат на выдачу визы. Позже могут запросить выписку за 6 месяцев.',
+  lang_none: 'Нужен языковой сертификат. Сдайте вступительный тест KMCU по корейскому или сначала поучитесь в нашем Институте корейского языка.',
+  lang_temp: 'В первом семестре вы получаете стипендию 50%. Со второго семестра, чтобы её сохранить, нужен TOPIK 2 или KIIP 2 и выше.',
+  ef: 'Владельцы виз E и F подают меньше документов. Сначала свяжитесь с отделом поддержки иностранных студентов.',
+  kmcu_student: 'Подайте документы Института корейского языка (справка об обучении, оценки, посещаемость, окончание). Посещаемость за прошлый семестр — не ниже 70%.',
+  ls_open: '<b>{term}</b>: идёт приём заявок {a} – {b}', ls_next: '<b>{term}</b>: приём заявок {a} – {b}', ls_class: 'Занятия: {a} – {b}',
+  ls_tba: 'Расписание на 2027 год ещё не объявлено. В прошлом году заявки на весенний семестр принимались с 17 ноября по 31 декабря. Уточните даты у нас.',
+  deg_open: '<b>Набор {n}</b>: идёт приём заявок {a} – {b}', deg_next: '<b>Набор {n}</b>: приём заявок {a} – {b}', deg_after: 'Собеседование: {i} · Результаты: {r}',
+  deg_closed: 'Все наборы на март 2027 года закрыты.',
+  c_app: 'Регистрационный сбор (один раз)', c_year: 'Обучение 1 год (4 семестра)', c_topik: 'Сбор за TOPIK', c_dorm: 'Общежитие (без питания)',
+  bal_valid: 'и больше · справка выдана не ранее чем за 1 месяц до подачи',
+  balc: { uz: 'Справка об остатке из KDB Bank или выписка за 3 месяца и больше', vn: 'Справка о депозите по особому правилу для Вьетнама (например, Woori Bank Vietnam)', cn: 'Справка об остатке, где до конца заморозки вклада осталось не менее 30 дней', mn: 'Справка об остатке (оригинал)', other: 'Справка об остатке (оригинал)' },
+  bal_6m: 'Через 1–2 недели после подачи могут запросить выписку операций за 6 месяцев и больше.',
+  bal_deg: 'Оригинал · выдана не ранее чем за 1 месяц · с подтверждением происхождения средств (например, история переводов)',
+  d: { sheet: 'Анкета с личными данными (Excel)', passport: 'Копия паспорта · фото (JPG)', bal: 'Справка об остатке на счёте (оригинал)', edu: 'Документ о последнем образовании (оригинал + нотариальный перевод)', income: 'Справка о доходах опекуна', family: 'Документ о родстве (свидетельство о смерти/разводе, если есть)', pid: 'Копия удостоверения личности опекуна', birth: 'Свидетельство о рождении', app: 'Заявление · мотивационное письмо', translator: 'Подтверждение переводчика (с удостоверением переводчика)', explain: 'Объяснительное письмо', photos: 'Фото семьи, места работы опекуна и дома', langscore: 'Один языковой сертификат (TOPIK и др.)', lsdocs: 'Документы Института корейского языка', visafee: 'Сбор за смену визы KRW 135,000', lease: 'Договор аренды жилья (Тэгу)' },
+  educ: { uz: 'апостиль + нотариальное заверение МИД', vn: 'консульская легализация', cn: 'отчёт о проверке CHESICC (принимается апостиль)', mn: 'апостиль или консульская легализация', other: 'апостиль или консульская легализация', deg: 'апостиль или консульская легализация · не старше 6 месяцев' },
+  docs_note: 'Документы не на корейском или английском нужно перевести и заверить у нотариуса (не старше 6 месяцев). Поданные документы не возвращаются.',
+  g: { hum1: 'Гуманитарные и социальные', hum2: 'Управление здравоохранением', eng: 'Инженерные · естественные · искусство и спорт' },
+  th_group: 'Направление', th_base: 'Стоимость', th_sch: 'Стипендия', th_pay: 'К оплате',
+  union_note: 'Плюс взнос студенческого союза KRW 79,000 · Стоимость может измениться.',
+  int_text: 'Подробное собеседование, 100 баллов (мотивация, адаптивность, умение выражать мысли, знания по специальности — по 25%). Меньше 50 баллов или неявка — отказ. На специальность «Исполнительская музыка» проводится очное прослушивание.',
+  bridge_r: 'После курса корейского можно перейти на программу на степень. Тогда остаток на счёте нужен всего {kmcu}.',
+  btn_apply: 'Подать заявку онлайн', btn_contact: 'Задать вопрос', btn_to_ls: 'Проверить языковой курс', btn_to_deg: 'Проверить программу на степень', btn_restart: 'Начать заново',
+  guide_title: 'Полное руководство', guide_desc: 'Главное из официальных правил приёма. Перед подачей обязательно сверьтесь с официальным документом.',
+  fold_open: 'Подробнее', fold_close: 'Свернуть',
+  gt_ls: 'Институт корейского языка (D-4)', gt_deg: 'Программа на степень (март 2027 · D-2)', gt_dept: 'Специальности', gt_dorm: 'Общежитие (Dongsan Hall)',
+  terms: { spring: 'Весенний семестр', summer: 'Летний семестр', fall: 'Осенний семестр', winter: 'Зимний семестр' },
+  th_term: 'Семестр', th_classp: 'Занятия', th_apply: 'Приём заявок', th_int: 'Собеседование (онлайн)',
+  h_sched: 'Расписание семестров', h_cost: 'Расходы', h_steps: 'Как поступить', h_docs: 'Документы', h_perks: 'Преимущества', h_req: 'Требования', h_rounds: 'Наборы', h_sch: 'Стипендии (первый семестр)', h_how: 'Как подать документы',
+  ls_hours: '10 недель · 200 часов за семестр (пн–пт, 4 часа в день). Даты могут сдвинуться в зависимости от оформления визы.',
+  steps: ['Подача документов (email + оригиналы почтой или лично)', 'Собеседование после проверки документов (Zoom и др.)', 'Результаты · оплата обучения (выставляется счёт)', 'Выдача подтверждения о зачислении', 'Оформление сертификата на выдачу визы (Узбекистан, Вьетнам, Китай, Монголия)', 'Результат по сертификату на выдачу визы', 'Подача на визу в посольство Кореи', 'Получение визы', 'Приезд · ориентация · медосмотр'],
+  ls_docs_extra: 'Подтверждение переводчика, объяснительное письмо и семейные фото нужны только для Узбекистана, Вьетнама, Китая и Монголии.',
+  perks: ['Медицинская страховка за первые 6 месяцев', 'Награда KRW 250,000 за TOPIK 3 и выше', 'Культурные поездки и посещение компаний каждый семестр', 'Поддержка на вьетнамском, китайском, японском и английском', 'После окончания — переход на программу на степень'],
+  req: ['Окончание средней школы (или эквивалент)', 'Вы и оба родителя — иностранные граждане', 'Соответствие требованиям визы D-2-1', 'Один языковой сертификат: TOPIK 2 · KIIP 2 · Институт короля Седжона 2B · английский (TOEFL iBT 59 и др.) · вступительный тест KMCU по корейскому'],
+  th_round: 'Набор', th_apply2: 'Приём заявок', th_int2: 'Собеседование', th_result: 'Результаты',
+  reg_note: 'Регистрация: депозит 21–23 декабря 2026 · дополнительно 24–31 декабря · окончательно 10–12 февраля 2027',
+  th_cond: 'Условие', th_rate: 'Скидка',
+  sch: { t2: 'TOPIK 2–4 · KIIP 2–4 · Институт короля Седжона 2B · английский сертификат', t5: 'TOPIK 5 · KIIP 5 (базовый)', t6: 'TOPIK 6 · KIIP 5 (продвинутый)' },
+  sch_after: 'Студенты продолжают получать от 20% (TOPIK 2) до 80% (TOPIK 6). Поступайте вместе с другом — грант наставничества KRW 300,000 каждому (есть условия).',
+  th_doc: 'Документ', th_abroad: 'Из-за рубежа', th_dom: 'Из Кореи',
+  how: 'Лично: Отдел международного сотрудничества, корпус социальных служб, 2 этаж (будни 09:00–19:00, суббота до 14:00) · Почтой: должно прийти до 18:00 в последний день · Email: ofofarmer@kmcu.ac.kr',
+  th_room: 'Корпус', th_type: 'Комната', th_price: 'Стоимость',
+  dorm: { m2: ['Мужское · студия вне кампуса', '2 человека'], fA4: ['Женское · корпус A на кампусе', '4 человека'], fB4: ['Женское · корпус B на кампусе', '4 человека'], fB2: ['Женское · корпус B на кампусе', '2 человека'] },
+  dorm_note: 'Питание не включено (готовите сами или ходите в столовую) · Офис общежития +82-53-589-7982',
+  links_title: 'Всегда проверяйте<br>официальные источники.',
+  links_desc: 'Эта страница помогает спланировать поступление. Даты и документы могут измениться, поэтому перед подачей проверьте официальные правила приёма.',
+  l: { applyLs: ['Заявка на языковой курс', 'APPLY ONLINE'], applyDeg: ['Заявка на программу на степень', 'APPLY ONLINE'], lsInfo: ['Приём в Институт корейского языка', 'Правила приёма PDF'], degInfo: ['Приём на основные программы', 'Правила · бланк заявления'], global: ['Сайт Отдела международного сотрудничества', 'Объявления · файлы'] },
+  contact_title: 'Контакты', c1: 'Корейский · английский', c2: 'Корейский · вьетнамский', c_mail: 'Email', c_addr: 'Адрес',
+  addr: 'Корпус социальных служб, 2 этаж, 675 Dalseo-daero, Dalseo-gu, Daegu 42601 · Метро, линия 2, станция Keimyung Univ., выход 7, 10 минут пешком',
+  footer: 'По материалам приёма иностранных студентов: Институт корейского языка 2026 и набор на март 2027 года. Даты и стоимость могут меняться; перед подачей сверьтесь с официальными правилами. © Отдел международного сотрудничества KMCU',
+},
 };
 
 // ===== 도우미 =====
 const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
-const LOC = { ko: 'ko-KR', en: 'en-US', es: 'es-ES' }, LI = { ko: 0, en: 1, es: 2 };
+const LOC = { ko: 'ko-KR', en: 'en-US', es: 'es-ES', vi: 'vi-VN', zh: 'zh-CN', ru: 'ru-RU' }, LI = { ko: 0, en: 1, es: 2, vi: 3, zh: 4, ru: 5 };
 const today = new Date().toLocaleDateString('sv'); // YYYY-MM-DD
 let lang = 'ko';
-try { lang = localStorage.getItem('lang') || (navigator.language.startsWith('es') ? 'es' : navigator.language.startsWith('ko') ? 'ko' : 'en'); } catch (e) {}
-if (!T[lang]) lang = 'ko';
+try { lang = localStorage.getItem('lang') || navigator.language.slice(0, 2); } catch (e) {}
+if (!T[lang]) lang = 'en';
 const L = () => T[lang];
 const fill = (s, o) => s.replace(/\{(\w+)\}/g, (m, k) => o[k] ?? m);
 const fmt = n => lang === 'ko' ? n.toLocaleString('ko-KR') + '원' : '₩' + n.toLocaleString(LOC[lang]);
@@ -679,7 +994,7 @@ function renderStatic() {
   const t = L(), m = M();
   document.documentElement.lang = lang;
   $$('[data-i]').forEach(el => { el.innerHTML = fill(t[el.dataset.i] ?? '', m); });
-  $$('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  $('#langSel').value = lang;
   $('#about').innerHTML = t.about.map(([k, s]) => `<li><span class="ico">${svg(k)}</span><span>${s}</span></li>`).join('');
   const card = (k, img, rows) => `<article class="card"><img src="assets/img/${img}" alt="" loading="lazy"><div class="in">
     <div class="eyebrow">${t[k + '_full']}</div><h3>${t[k + '_name']}</h3>
@@ -697,7 +1012,7 @@ function renderStatic() {
   $('#visaCommon').innerHTML = `<div><h3>${t.vz_common_title}</h3>${ul(t.vz_common)}<p class="small" style="margin:14px 0 0">${t.vz_note}</p></div>
     <div class="row"><a class="pill line sm" href="https://www.hikorea.go.kr" target="_blank" rel="noopener">HiKorea ↗</a><a class="pill line sm" href="https://www.visa.go.kr" target="_blank" rel="noopener">Visa Portal ↗</a></div>`;
   renderGuide();
-  $('#links').innerHTML = Object.entries(t.l).map(([k, [a, b]], i) => `<a class="banner ${i < 2 ? 'primary' : ''}" href="${D.url[k]}" target="_blank" rel="noopener"><span>${a}<small>${b}</small></span><span>↗</span></a>`).join('');
+  $('#links').innerHTML = Object.entries(t.l).map(([k, [a, b]], i) => `<a class="banner ${i < 2 ? 'primary' : ''}" href="${D.url[k]}" target="_blank" rel="noopener"${k.startsWith('apply') ? ` data-apply="${k === 'applyLs' ? 'ls' : 'deg'}"` : ''}><span>${a}<small>${b}</small></span><span>↗</span></a>`).join('');
   $('#contacts').innerHTML = `
     <a class="banner" href="tel:+82535897941"><span>053-589-7941<small>${t.c1} · KakaoTalk ID: kmcu7941</small></span><span>☎</span></a>
     <a class="banner" href="tel:+82535897359"><span>053-589-7359<small>${t.c2} · KakaoTalk ID: Trangmilo2305</small></span><span>☎</span></a>
@@ -736,6 +1051,14 @@ function renderGuide() {
   fold(t.gt_dorm, `${table([t.th_room, t.th_type, t.th_price], D.dorm.map(([k, p]) => [t.dorm[k][0], t.dorm[k][1], fmt(p)]), [2])}<p class="small">${t.dorm_note}</p>`);
 }
 
+// ===== 이용 통계 (개인정보 없이 이벤트만) =====
+// visit 방문 · start 진단 시작 · done 진단 완료 · apply 온라인 신청 버튼
+function stat(ev, o = {}) {
+  if (!D.url.stats) return;
+  const body = JSON.stringify({ ev, lang, track: o.track || '', result: o.result || '', country: o.country || '' });
+  try { navigator.sendBeacon(D.url.stats, body) || fetch(D.url.stats, { method: 'POST', body, mode: 'no-cors', keepalive: true }); } catch (_) {}
+}
+
 // ===== 진단 =====
 let S = { track: 'ls', a: {} };
 const FLOW = {
@@ -761,6 +1084,7 @@ function say(html, me) {
 
 function start(track) {
   S = { track, a: {} };
+  stat('start', { track });
   document.body.classList.add('diag');
   window.scrollTo(0, 0);
   chat().innerHTML = `<div class="top"><button class="pill line sm" data-home>${L().back}</button></div>`;
@@ -780,11 +1104,12 @@ function step() {
     const name = new Intl.DisplayNames([LOC[lang]], { type: 'region' });
     const flag = c => `<img class="flag" src="assets/img/flags/${c}.png" alt="">${name.of(c.toUpperCase())}`;
     const val = c => FOUR.includes(c) ? c : 'other'; // 결과 안내는 사증발급인정서 4개국만 따로
-    TOP.forEach(c => btn(flag(c), () => pick(val(c), flag(c))));
+    const pickC = c => { S.cc = c; pick(val(c), flag(c)); };
+    TOP.forEach(c => btn(flag(c), () => pickC(c)));
     const more = btn(`${opts.other} <span class="caret">▾</span>`, () => {
       more.remove();
-      MORE.forEach(c => btn(flag(c), () => pick(val(c), flag(c))));
-      btn(L().c_none, () => pick('other', L().c_none));
+      MORE.forEach(c => btn(flag(c), () => pickC(c)));
+      btn(L().c_none, () => { S.cc = 'other'; pick('other', L().c_none); });
     });
   } else for (const [v, label] of Object.entries(opts)) btn(label, () => pick(v, label));
   chat().append(box);
@@ -793,6 +1118,7 @@ function step() {
 
 function result() {
   const t = L(), a = S.a, r = S.track === 'ls' ? lsResult(t, a) : degResult(t, a);
+  stat('done', { track: S.track, result: r.st, country: S.cc });
   const d = document.createElement('div'); d.className = 'result';
   d.innerHTML = `<div class="status ${r.st}">${t['r_' + r.st]}</div>
     ${r.notes.length ? sec(t.r_notes, ul(r.notes)) : ''}${r.body || ''}
@@ -800,7 +1126,7 @@ function result() {
   chat().append(d);
   d.scrollIntoView({ block: 'start', behavior: 'smooth' });
 }
-const linkBtn = (href, label, primary) => `<a class="pill sm ${primary ? 'dark' : 'line'}" href="${href}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : 'data-home'}>${label}</a>`;
+const linkBtn = (href, label, primary) => `<a class="pill sm ${primary ? 'dark' : 'line'}" href="${href}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : 'data-home'}${primary ? ` data-apply="${S.track}"` : ''}>${label}</a>`;
 const goBtn = (track, label) => `<button class="pill line sm" onclick="start('${track}')">${label} →</button>`;
 
 function lsResult(t, a) {
@@ -871,13 +1197,14 @@ document.addEventListener('click', e => {
   const go = e.target.closest('[data-go]');
   if (go) { e.preventDefault(); start(go.dataset.go); return; }
   if (e.target.closest('[data-home]')) document.body.classList.remove('diag'); // 링크 기본 동작(앵커 이동)은 그대로
-  const lb = e.target.closest('[data-lang]');
-  if (lb) {
-    lang = lb.dataset.lang;
-    try { localStorage.setItem('lang', lang); } catch (_) {}
-    renderStatic();
-    if (isDiag()) start(S.track);
-  }
+  const ap = e.target.closest('[data-apply]');
+  if (ap) stat('apply', { track: ap.dataset.apply });
+});
+$('#langSel').addEventListener('change', e => {
+  lang = e.target.value;
+  try { localStorage.setItem('lang', lang); } catch (_) {}
+  renderStatic();
+  if (isDiag()) start(S.track);
 });
 
 // 스크롤 등장 효과. 같은 줄에 놓인 요소(카드 2장, 사진+글)는 조금씩 늦게 떠오른다.
@@ -903,6 +1230,7 @@ function reveal() {
 const _render = renderStatic;
 renderStatic = () => { _render(); reveal(); };
 renderStatic();
+stat('visit');
 </script>
 </body>
 </html>
