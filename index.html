@@ -1348,7 +1348,7 @@ function renderGuide() {
 // ===== 이용 통계 (개인정보 없이 이벤트만) =====
 // visit 방문 · start 진단 시작 · done 진단 완료 · apply 온라인 신청 버튼
 function stat(ev, o = {}) {
-  if (!D.url.stats) return;
+  if (!D.url.stats || location.hostname !== 'jaebong-choi.github.io') return; // 실제 사이트에서만 기록 (내 PC·미리보기는 제외). 주소가 바뀌면 여기도 바꾼다
   const body = JSON.stringify({ ev, lang, track: o.track || '', result: o.result || '', country: o.country || '' });
   try { navigator.sendBeacon(D.url.stats, body) || fetch(D.url.stats, { method: 'POST', body, mode: 'no-cors', keepalive: true }); } catch (_) {}
 }

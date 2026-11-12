@@ -4,17 +4,18 @@
 import csv, json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LANGS = ['ko', 'en', 'es', 'vi', 'zh', 'ru']
+LANGS = ['ko', 'en', 'es', 'vi', 'zh', 'ru', 'mn']
+EN = '(영어로 표시)'  # 그 언어 번역이 없어 사이트에 영어가 나오는 칸
 
 
 def js_to_json(src):
-    """T 같은 단순한 JS 객체 리터럴(작은따옴표 문자열, 따옴표 없는 키, 끝 쉼표)을 JSON으로 바꾼다."""
+    """T 같은 단순한 JS 객체 리터럴(따옴표 문자열, 따옴표 없는 키, 끝 쉼표)을 JSON으로 바꾼다."""
     out, i, n = [], 0, len(src)
     while i < n:
         c = src[i]
-        if c == "'":
+        if c in "'\"":
             j, buf = i + 1, []
-            while src[j] != "'":
+            while src[j] != c:
                 if src[j] == '\\':
                     j += 1
                 buf.append(src[j])
@@ -46,8 +47,23 @@ def flat(v, key, rows):
 
 
 html = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
-t_src = html[html.index('const T = {') + 10: html.index('\n};\n\n// ===== 도우미') + 2]
-T = json.loads(js_to_json(t_src))
+
+
+def obj(start_marker, prefix='{'):
+    """start_marker 바로 뒤부터 줄 맨 앞의 '};' 까지를 객체로 읽는다."""
+    a = html.index(start_marker) + len(start_marker)
+    return json.loads(js_to_json(prefix + html[a: html.index('\n};', a) + 2]))
+
+
+T = obj('const T = {')
+ADD = obj('const ADD = {')      # 2026-11 추가분: 사이트와 같은 방식으로 T 에 덮어쓴다
+for lg, add in ADD.items():
+    add = dict(add)
+    T[lg]['q']['where'] = add.pop('where')
+    T[lg]['d']['tb'] = add.pop('tb')
+    T[lg]['educ']['vn'] = add.pop('educ_vn')
+    T[lg].update(add)
+T['mn'] = obj('T.mn = { ...T.en,')  # 몽골어: 여기 없는 키는 사이트에서 영어로 보인다
 d_src = html[html.index('const DEPTS = [') + 14: html.index('];', html.index('const DEPTS = [')) + 1]
 DEPTS = json.loads(js_to_json(d_src))
 
@@ -55,6 +71,11 @@ per = {lg: {} for lg in LANGS}
 for lg in LANGS:
     flat(T[lg], '', per[lg])
 keys = list(per['ko'])
+# 영어로 대신 보이는 칸 표시: 몽골어 빠진 키, 'vn' 안내처럼 일부 언어에만 있는 문구
+for lg in LANGS[2:]:
+    for k in keys:
+        if k not in per[lg] and k in per['en']:
+            per[lg][k] = EN
 
 with open(os.path.join(ROOT, 'translations-review.csv'), 'w', encoding='utf-8-sig', newline='') as f:
     w = csv.writer(f)
@@ -62,9 +83,9 @@ with open(os.path.join(ROOT, 'translations-review.csv'), 'w', encoding='utf-8-si
     for k in keys:
         w.writerow([k, *(per[lg].get(k, '(없음)') for lg in LANGS), ''])
     for gi, (group, depts) in enumerate(DEPTS):
-        w.writerow([f'DEPTS[{gi}]', *group, ''])
+        w.writerow([f'DEPTS[{gi}]', *group, EN, ''])
         for di, d in enumerate(depts):
-            w.writerow([f'DEPTS[{gi}][{di}]', *d, ''])
+            w.writerow([f'DEPTS[{gi}][{di}]', *d, EN, ''])
 
 missing = {lg: [k for k in keys if k not in per[lg]] for lg in LANGS}
 extra = {lg: [k for k in per[lg] if k not in per['ko']] for lg in LANGS}
